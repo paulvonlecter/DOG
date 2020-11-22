@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://raw.githubusercontent.com/paulvonlecter/btn-social-colors/master/btn-social-colors.css" />
+<link rel="stylesheet" href="https://raw.githubusercontent.com/paulvonlecter/btn-social-colors/master/btn-social-colors.css" type="text/css" />
 <link rel="stylesheet" href="main.css" />
 <title>Lecter's Discord Overlay Generator</title>
 </head>
@@ -35,13 +35,13 @@
         </header><!--/col-3-->
         <div class="col-xl-9">
             <div class="list-group list-group-horizontal text-center" id="overlay-type-selector" role="tablist">
-                <a class="list-group-item list-group-item-action active" data-toggle="list" href="#single-avatar" role="tab">
+                <a class="list-group-item list-group-item-action active" data-toggle="list" data-mode="single" href="#single-avatar" role="tab">
                     <i class="fa fa-user fa-4x"></i>
                     <div class="h5 my-2">Single Avatar</div>
                     <p>Use a single avatar for personalized screen area placement</p>
                     <small></small>
                 </a><!--/list-group-item-->
-                <a class="list-group-item list-group-item-action" data-toggle="list" href="#multi-avatar" role="tab">
+                <a class="list-group-item list-group-item-action" data-toggle="list" data-mode="multiple" href="#multi-avatar" role="tab">
                     <i class="fa fa-group fa-4x"></i>
                     <div class="h5 my-2">Multiple Avatars</div>
                     <p>Unified placement of avatars on the screen area in a row</p>
@@ -53,42 +53,77 @@
         <header class="col-xl-3">
             <h2 class="h1 mb-3"><small class="text-muted">Step 2. </small>Enter variables</h2>
         </header><!--/col-3-->
-        <div class="col-xl-9 tab-content">
-            <div class="tab-pane fade show active" id="single-avatar" role="tabpanel">
-                <form class="col">
-                    <div class="form-group">
-                        <label for="single-discord-user-id">Discord User ID</label>
-                        <input type="text" class="form-control" id="single-discord-user-id" placeholder="92736598273427" />
-                    </div><!--/form-control-->
+        <form class="col-xl-9" id="mainform" onsubmit="false">
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="single-avatar" role="tabpanel">
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="single-discord-user-id">Discord User ID</label>
+                                <input type="number" class="form-control" id="single-discord-user-id" required placeholder="12345678901234567890" />
+                            </div><!--/form-control-->
+                        </div><!--/col-6-->
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label for="single-avatar-brightness">Brightness (passive)</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="single-avatar-brightness" required placeholder="70" value="70" min="0" max="100" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" id="basic-addon2">%</span>
+                                    </div>
+                                </div><!--/input-group-->
+                            </div><!--/form-group-->
+                        </div><!--/col-3-->
+                        <div class="col-md-3 col-sm-6">
+                            <div class="form-group">
+                                <label for="single-avatar-jumping-height">Jumping height</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="single-avatar-jumping-height" required placeholder="10" min="0" />
+                                    <div class="input-group-append">
+                                        <select class="form-control rounded-0" id="unit-list">
+                                            <option value="px" selected>px</option>
+                                            <option value="em">em</option>
+                                            <option value="rem">rem</option>
+                                            <option value="%">%</option>
+                                            <option value="vw">vw</option>
+                                            <option value="cm">cm</option>
+                                            <option value="mm">mm</option>
+                                        </select>
+                                    </div>
+                                </div><!--/input-group-->
+                            </div><!--/form-group-->
+                        </div><!--/col-3-->
+                    </div><!--/form-row-->
                     <div class="form-group">
                         <label for="single-discord-avatar-link-passive">URL for passive avatar</label>
-                        <input type="text" class="form-control" id="single-discord-avatar-link-passive" placeholder="https://cdn.discordapp.com/attachments/123.../456.../passive.png" />
+                        <input type="url" class="form-control" id="single-discord-avatar-link-passive" required placeholder="https://cdn.discordapp.com/attachments/123.../456.../passive.png" />
                     </div><!--/form-control-->
                     <div class="form-group">
                         <label for="single-discord-avatar-link-active">URL for active avatar</label>
-                        <input type="text" class="form-control" id="single-discord-avatar-link-active" placeholder="https://cdn.discordapp.com/attachments/123.../456.../active.png" />
+                        <input type="url" class="form-control" id="single-discord-avatar-link-active" required placeholder="https://cdn.discordapp.com/attachments/123.../456.../active.png" />
                     </div><!--/form-control-->
                     <div class="form-group">
                         <label for="single-generation-method">CSS generation method</label>
-                        <select class="form-control">
-                            <option value="paulvonlecter" selected>Paul von Lecter (modular)</option>
-                            <option value="jiihn">Jiihn (original)</option>
+                        <select class="form-control" id="single-generation-method" required>
+                            <option value="jiihn" selected>Jiihn (original)</option>
+                            <option value="paulvonlecter3x4">Paul von Lecter (3:4 avatars)</option>
+                            <option value="paulvonlecter1x1">Paul von Lecter (1:1 avatars)</option>
                         </select>
                     </div><!--/form-control-->
-                    <button class="btn btn-primary" type="submit">
-                        <i class="fa fa-gears"></i>
-                        Generate!
-                    </button>
-                    <button class="btn btn-danger" type="reset">
-                        <i class="fa fa-repeat"></i>
-                        Reset
-                    </button>
-                </form>
-            </div><!--/single-avatar-->
-            <div class="tab-pane fade" id="multi-avatar" role="tabpanel">
-                Form under construction
-            </div><!--/multi-avatar-->
-        </div><!--/col-xl-9-->
+                </div><!--/single-avatar-->
+                <div class="tab-pane fade" id="multi-avatar" role="tabpanel">
+                    Form under construction
+                </div><!--/multi-avatar-->
+            </div><!--/col-xl-9-->
+            <button class="btn btn-primary" type="submit">
+                <i class="fa fa-gears"></i>
+                Generate!
+            </button>
+            <button class="btn btn-danger" type="reset">
+                <i class="fa fa-repeat"></i>
+                Reset
+            </button>
+        </form>
     </section><!--/row-->
     <section class="row mb-5">
         <header class="col-xl-3">
@@ -96,7 +131,7 @@
         </header><!--/col-3-->
         <div class="col-xl-9 tab-content">
             <div class="form-group">
-                <textarea class="form-control" rows="10" style="font-family:monospace;" placeholder="CSS code appears on this field"></textarea>
+                <textarea class="form-control" rows="10" style="font-family:monospace;" placeholder="CSS code appears on this field" id="css-code-result"></textarea>
             </div><!--/form-group-->
         </div><!--/col-xl-9-->
     </section><!--/row-->
