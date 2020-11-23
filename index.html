@@ -112,7 +112,86 @@
                     </div><!--/form-control-->
                 </div><!--/single-avatar-->
                 <div class="tab-pane fade" id="multi-avatar" role="tabpanel">
-                    Form under construction
+                    <ul class="nav nav-tabs" id="character-slots" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" data-toggle="tab" href="#slot0" role="tab" aria-selected="true">1</a>
+                        </li>
+                        <li class="nav-item" id="duplicate-last-slot" role="presentation" title="Duplicate character slot...">
+                            <a class="nav-link" href="#duplicate-slot" aria-selected="false">
+                                <i class="fa fa-copy"></i>
+                            </a>
+                        </li>
+                    </ul><!--/nav-tabs-->
+                    <div class="tab-content border-left border-right border-bottom mb-3 p-3" id="character-list">
+                        <div class="tab-pane fade show active" id="slot0" role="tabpanel">
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="w-100">
+                                            Discord User ID
+                                            <input type="number" class="form-control" name="multiple-discord-user-id[]" required placeholder="12345678901234567890" />
+                                        </label>
+                                    </div><!--/form-control-->
+                                </div><!--/col-6-->
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-group">
+                                        <label class="w-100">
+                                            Brightness (passive)
+                                            <div class="input-group mt-2">
+                                                <input type="number" class="form-control" name="multiple-avatar-brightness[]" required placeholder="Type a number, e.g. 70" value="70" min="0" max="100" />
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text" id="basic-addon2">%</span>
+                                                </div>
+                                            </div><!--/input-group-->
+                                        </label>
+                                    </div><!--/form-group-->
+                                </div><!--/col-3-->
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="form-group">
+                                        <label class="w-100">
+                                            Jumping height
+                                            <div class="input-group mt-2">
+                                                <input type="number" class="form-control" name="multiple-avatar-jumping-height[]" required placeholder="Type a number, e.g. 10" value="10" min="0" />
+                                                <div class="input-group-append">
+                                                    <select class="form-control rounded-0" name="unit-list[]">
+                                                        <option value="px" selected>px</option>
+                                                        <option value="em">em</option>
+                                                        <option value="rem">rem</option>
+                                                        <option value="%">%</option>
+                                                        <option value="vw">vw</option>
+                                                        <option value="cm">cm</option>
+                                                        <option value="mm">mm</option>
+                                                    </select>
+                                                </div>
+                                            </div><!--/input-group-->
+                                        </label>
+                                    </div><!--/form-group-->
+                                </div><!--/col-3-->
+                            </div><!--/form-row-->
+                            <div class="form-group">
+                                <label class="w-100">
+                                    URL for passive avatar
+                                    <input type="url" class="form-control mt-2" name="multiple-discord-avatar-link-passive[]" required placeholder="Paste link here like this: https://cdn.discordapp.com/attachments/123.../456.../passive.png" />
+                                </label>
+                            </div><!--/form-control-->
+                            <div class="form-group">
+                                <label class="w-100">
+                                    URL for active avatar
+                                    <input type="url" class="form-control mt-2" name="multiple-discord-avatar-link-active[]" required placeholder="Paste link here like this: https://cdn.discordapp.com/attachments/123.../456.../active.png" />
+                                </label>
+                            </div><!--/form-control-->
+                            <div class="form-group">
+                                <label class="w-100">
+                                    CSS generation method
+                                    <select class="form-control mt-2" name="multiple-generation-method[]" required>
+                                        <option value="jiihn" selected>Jiihn (original)</option>
+                                        <option value="paulvonlecter3x4">Paul von Lecter (3:4 avatars)</option>
+                                        <option value="paulvonlecter1x1">Paul von Lecter (1:1 avatars)</option>
+                                    </select>
+                                </label>
+                            </div><!--/form-control-->
+                        </div><!--/tab-pane-->
+                    </div><!--/tab-content-->
                 </div><!--/multi-avatar-->
             </div><!--/col-xl-9-->
             <button class="btn btn-primary" type="submit">
@@ -135,10 +214,20 @@
             </div><!--/form-group-->
         </div><!--/col-xl-9-->
     </section><!--/row-->
+    <section class="row mb-5">
+        <header class="col-xl-3">
+            <h2 class="h1 mb-3">Preview</h2>
+        </header><!--/col-3-->
+        <div class="col-xl-9 tab-content">
+            <div class="embed-responsive embed-responsive-21by9">
+                <iframe id="previewFrame" class="embed-responsive-item" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div><!--/embed-responsive-->
+        </div><!--/col-xl-9-->
+    </section><!--/row-->
 </div><!--/container-->
 <aside class="jumbotron my-5">
-    <div class="container">
-        <h2 class="text-center mb-3">Thanksgiving Section</h2>
+    <div class="container text-center">
+        <h2 class="mb-3">Thanksgiving Section</h2>
         <p>Special thanks to <a href="https://jiinh.com/">Jiinh</a> for the top-notch idea to spice up the standard Discord Stream Kit with bouncing avatars.</p>
         <a class="btn btn-danger btn-youtube" href="#original-idea-video" data-toggle="modal">See original video <i class="fa fa-youtube"></i></a>
         <a class="btn btn-info" href="https://jiinh.com/discord-reactive-image-generator/">Visit original Jiinh's generator <i class="fa fa-external-link"></i></a>

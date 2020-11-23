@@ -82,4 +82,7 @@ li.voice-state:not([data-reactid*="${$singleDiscordUserID.val()}"]) { display:no
     // Выход из функции
     return false;
 });
-// Templates
+// Дублировать последний слот
+$('#duplicate-last-slot').click(function(e) {
+    
+});
