@@ -52,7 +52,8 @@ li.voice-state { width:100%!important; height:100%!important; margin:0!important
 img.avatar { height:auto!important; max-height:100%!important; width:auto!important; max-width:100%!important; border-radius:0!important; margin:0!important; border:none!important; transition: filter .1s linear; background-size:auto 100%; background-repeat:no-repeat; filter: brightness(${$singleAvatarBrightness.val()}%); text-align:center; content:url(https://cdn.discordapp.com/attachments/746839046751256618/758985869683589140/Transparent-300x400.png); }
 img.avatar.speaking { border-color:rgba(0,0,0,0)!important; position:relative!important; animation-name: speak-now; animation-duration: 1s; animation-fill-mode:forwards; filter: brightness(100%); }
 @keyframes speak-now { 0% { bottom:0px; } 15% { bottom:${$singleAvatarJumpingHeight.val()}${$unitList.val()}; } 30% { bottom:0px; } }
-body { top: ${$singleAvatarJumpingHeight.val()}${$unitList.val()}; }`;
+body { top: ${$singleAvatarJumpingHeight.val()}${$unitList.val()}; }
+li.voice-state:not([data-reactid*="${$singleDiscordUserID.val()}"]) { display:none; }`;
                     break;
                 case 'paulvonlecter1x1':
                     constructedCSS =
@@ -63,7 +64,8 @@ li.voice-state { width:100%!important; height:100%!important; margin:0!important
 img.avatar { height:auto!important; max-height:100%!important; width:auto!important; max-width:100%!important; border-radius:0!important; margin:0!important; border:none!important; transition: filter .1s linear; background-size:auto 100%; background-repeat:no-repeat; filter: brightness(${$singleAvatarBrightness.val()}%); text-align:center; content:url(https://cdn.discordapp.com/attachments/754812012441239632/754817529674727515/Transparent-1024x1024.png); }
 img.avatar.speaking { border-color:rgba(0,0,0,0)!important; position:relative!important; animation-name: speak-now; animation-duration: 1s; animation-fill-mode:forwards; filter: brightness(100%); }
 @keyframes speak-now { 0% { bottom:0px; } 15% { bottom:${$singleAvatarJumpingHeight.val()}${$unitList.val()}; } 30% { bottom:0px; } }
-body { top: ${$singleAvatarJumpingHeight.val()}${$unitList.val()}; }`;
+body { top: ${$singleAvatarJumpingHeight.val()}${$unitList.val()}; }
+li.voice-state:not([data-reactid*="${$singleDiscordUserID.val()}"]) { display:none; }`;
                     break;
             }
             break;
