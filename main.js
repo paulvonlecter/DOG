@@ -53,7 +53,9 @@ img.avatar { height:auto!important; max-height:100%!important; width:auto!import
 img.avatar.speaking { border-color:rgba(0,0,0,0)!important; position:relative!important; animation-name: speak-now; animation-duration: 1s; animation-fill-mode:forwards; filter: brightness(100%); }
 @keyframes speak-now { 0% { bottom:0px; } 15% { bottom:${$singleAvatarJumpingHeight.val()}${$unitList.val()}; } 30% { bottom:0px; } }
 body { top: ${$singleAvatarJumpingHeight.val()}${$unitList.val()}; }
-li.voice-state:not([data-reactid*="${$singleDiscordUserID.val()}"]) { display:none; }`;
+li.voice-state:not([data-reactid*="${$singleDiscordUserID.val()}"]) { display:none; }
+.avatar[data-reactid*="${$singleDiscordUserID.val()}"] { background-image: url(${$singleDiscordAvatarLinkPassive.val()}); }
+.avatar.speaking[data-reactid*="${$singleDiscordUserID.val()}"] { background-image: url(${$singleDiscordAvatarLinkActive.val()}); }`;
                     break;
                 case 'paulvonlecter1x1':
                     constructedCSS =
@@ -65,7 +67,9 @@ img.avatar { height:auto!important; max-height:100%!important; width:auto!import
 img.avatar.speaking { border-color:rgba(0,0,0,0)!important; position:relative!important; animation-name: speak-now; animation-duration: 1s; animation-fill-mode:forwards; filter: brightness(100%); }
 @keyframes speak-now { 0% { bottom:0px; } 15% { bottom:${$singleAvatarJumpingHeight.val()}${$unitList.val()}; } 30% { bottom:0px; } }
 body { top: ${$singleAvatarJumpingHeight.val()}${$unitList.val()}; }
-li.voice-state:not([data-reactid*="${$singleDiscordUserID.val()}"]) { display:none; }`;
+li.voice-state:not([data-reactid*="${$singleDiscordUserID.val()}"]) { display:none; }
+.avatar[data-reactid*="${$singleDiscordUserID.val()}"] { background-image: url(${$singleDiscordAvatarLinkPassive.val()}); }
+.avatar.speaking[data-reactid*="${$singleDiscordUserID.val()}"] { background-image: url(${$singleDiscordAvatarLinkActive.val()}); }`;
                     break;
             }
             break;
