@@ -1,88 +1,100 @@
-// Variables
-var $mainform = $('#mainform');
-var $singleDiscordUserID = $('#single-discord-user-id');
-var $singleDiscordAvatarLinkPassive = $('#single-discord-avatar-link-passive');
-var $singleDiscordAvatarLinkActive = $('#single-discord-avatar-link-active');
-var $singleAvatarBrightness = $('#single-avatar-brightness');
-var $singleAvatarJumpingHeight = $('#single-avatar-jumping-height');
-var $singleGenerationMethod = $('#single-generation-method');
-var $CSSCodeResult = $('#css-code-result');
-var $unitList = $('#unit-list');
-// Events
-$mainform.bind('submit', function (evt) {
-    let constructedCSS = '';
-    // Генерировать в зависимости от режима
-    switch ($('#overlay-type-selector a.active').attr('data-mode')) {
-        case 'single':
-            // Выбрать метод генерации
-            switch ($singleGenerationMethod.val()) {
-                case 'jiihn':
-                    constructedCSS = `li.voice-state:not([data-reactid*="${$singleDiscordUserID.val()}"]) { display:none; }
-.avatar {
-    content: url(${$singleDiscordAvatarLinkPassive.val()});
-    height: auto !important;
-    width: auto !important;
-    border-radius: 0% !important;
-    filter: brightness(${$singleAvatarBrightness.val()}%);
-}
-.speaking {
-    border-color: rgba(0,0,0,0) !important;
-    position: relative;
-    animation-name: speak-now;
-    animation-duration: 1s;
-    animation-fill-mode:forwards;
-    filter: brightness(100%);
-    content:url(${$singleDiscordAvatarLinkActive.val()});
-}
-@keyframes speak-now {
-    0% { bottom: 0px; }
-    15% { bottom: 10px; }
-    30% { bottom: 0px; }
-}
-li.voice-state{ position: static; }
-div.user{ position: absolute; left:40%; bottom:5%; }
-body { background-color: rgba(0, 0, 0, 0); margin: 0px auto; overflow: hidden; }`;
-                    break;
-                case 'paulvonlecter3x4':
-                constructedCSS =
-`body { overflow-y:hidden; display:block; position:absolute; bottom:0; left:0; right:0; height:100%; }
-.voice-container .voice-states .voice-state .user { display:none!important; }
-ul.voice-states { display:flex!important; width:100%!important; max-width:100%!important; padding:0!important; justify-content:flex-start; vertical-align:bottom; margin:0!important; height:100%!important; position:absolute; top:0; bottom:0; left:0; right:0; }
-li.voice-state { width:100%!important; height:100%!important; margin:0!important; }
-img.avatar { height:auto!important; max-height:100%!important; width:auto!important; max-width:100%!important; border-radius:0!important; margin:0!important; border:none!important; transition: filter .1s linear; background-size:auto 100%; background-repeat:no-repeat; filter: brightness(${$singleAvatarBrightness.val()}%); text-align:center; content:url(https://cdn.discordapp.com/attachments/746839046751256618/758985869683589140/Transparent-300x400.png); }
-img.avatar.speaking { border-color:rgba(0,0,0,0)!important; position:relative!important; animation-name: speak-now; animation-duration: 1s; animation-fill-mode:forwards; filter: brightness(100%); }
-@keyframes speak-now { 0% { bottom:0px; } 15% { bottom:${$singleAvatarJumpingHeight.val()}${$unitList.val()}; } 30% { bottom:0px; } }
-body { top: ${$singleAvatarJumpingHeight.val()}${$unitList.val()}; }
-li.voice-state:not([data-reactid*="${$singleDiscordUserID.val()}"]) { display:none; }
-.avatar[data-reactid*="${$singleDiscordUserID.val()}"] { background-image: url(${$singleDiscordAvatarLinkPassive.val()}); }
-.avatar.speaking[data-reactid*="${$singleDiscordUserID.val()}"] { background-image: url(${$singleDiscordAvatarLinkActive.val()}); }`;
-                    break;
-                case 'paulvonlecter1x1':
-                    constructedCSS =
-`body { overflow-y:hidden; display:block; position:absolute; bottom:0; left:0; right:0; height:100%; }
-.voice-container .voice-states .voice-state .user { display:none!important; }
-ul.voice-states { display:flex!important; width:100%!important; max-width:100%!important; padding:0!important; justify-content:flex-start; vertical-align:bottom; margin:0!important; height:100%!important; position:absolute; top:0; bottom:0; left:0; right:0; }
-li.voice-state { width:100%!important; height:100%!important; margin:0!important; }
-img.avatar { height:auto!important; max-height:100%!important; width:auto!important; max-width:100%!important; border-radius:0!important; margin:0!important; border:none!important; transition: filter .1s linear; background-size:auto 100%; background-repeat:no-repeat; filter: brightness(${$singleAvatarBrightness.val()}%); text-align:center; content:url(https://cdn.discordapp.com/attachments/754812012441239632/754817529674727515/Transparent-1024x1024.png); }
-img.avatar.speaking { border-color:rgba(0,0,0,0)!important; position:relative!important; animation-name: speak-now; animation-duration: 1s; animation-fill-mode:forwards; filter: brightness(100%); }
-@keyframes speak-now { 0% { bottom:0px; } 15% { bottom:${$singleAvatarJumpingHeight.val()}${$unitList.val()}; } 30% { bottom:0px; } }
-body { top: ${$singleAvatarJumpingHeight.val()}${$unitList.val()}; }
-li.voice-state:not([data-reactid*="${$singleDiscordUserID.val()}"]) { display:none; }
-.avatar[data-reactid*="${$singleDiscordUserID.val()}"] { background-image: url(${$singleDiscordAvatarLinkPassive.val()}); }
-.avatar.speaking[data-reactid*="${$singleDiscordUserID.val()}"] { background-image: url(${$singleDiscordAvatarLinkActive.val()}); }`;
-                    break;
-            }
-            break;
-        case 'multiple':
+/**
+ * Variables
+ */
+var constructorTemplatesShorted = {};
+let $textareaProto = $('#css-code-result').clone().removeAttr('id');
 
-            break;
+/**
+ * Events
+ */
+// Загрузка шаблона
+$(document).ready(function () {
+    for (var constructorTemplatesItem in constructorTemplates) {
+        if (constructorTemplates.hasOwnProperty(constructorTemplatesItem)) {
+            constructorTemplatesShorted[constructorTemplates[constructorTemplatesItem]['key']] = {
+                'code': constructorTemplates[constructorTemplatesItem]['code'],
+                'multiple': constructorTemplates[constructorTemplatesItem]['multiple'],
+                'single': constructorTemplates[constructorTemplatesItem]['single']
+            };
+            $('<option>')
+                .attr('value', constructorTemplates[constructorTemplatesItem]['key'])
+                .html(constructorTemplates[constructorTemplatesItem]['title'])
+                .appendTo('#generationMethod');
+        }
     }
-    // Сброс в поле
-    $CSSCodeResult.val(constructedCSS);
-    // Выход из функции
+    $('#prev-char-btn').attr('disabled', true);
+    $('#next-char-btn').attr('disabled', true);
+    console.log(constructorTemplatesShorted);
+});
+// Генерация кода
+$('#mainform').bind('submit', function (evt) {
+    let constructedCSS = '';
+    let multipleFlag = ($('#character-list .carousel-inner').children().length>1?true:false);
+    $('#result-area').empty();
+    if(multipleFlag) {
+        if (mainform.elements['generation-method'].value == 'jiinh') {
+            alert("Original method doesn't support multiple characters!\nEnabling separated generation...");
+            let $characterCollection = $('#character-list .carousel-inner').children();
+            for (var i = 0; i < $('#character-list .carousel-inner').children().length; i++) {
+                constructedCSS = constructorTemplatesShorted[$('#generationMethod').val()]['code'];
+                constructedCSS = constructedCSS
+                    .replace(/___DiscordUserID___/g, mainform.elements['discord-user-id'][i].value)
+                    .replace(/___DiscordAvatarLinkPassive___/g, mainform.elements['discord-avatar-link-passive'][i].value)
+                    .replace(/___DiscordAvatarLinkActive___/g, mainform.elements['discord-avatar-link-active'][i].value)
+                    .replace(/___AvatarBrightness___/g, mainform.elements['avatar-brightness'][i].value)
+                    .replace(/___AvatarJumpingHeight___/g, mainform.elements['avatar-jumping-height'][i].value)
+                    .replace(/___AvatarJumpingHeightUnits___/g, mainform.elements['avatar-jumping-height-units'][i].value);
+                $textareaProto.clone().val(constructedCSS).appendTo('#result-area');
+            }
+        } else {
+            constructedCSS = constructorTemplatesShorted[$('#generationMethod').val()]['code'];
+            let $characterCollection = $('#character-list .carousel-inner').children();
+            for (var i = 0; i < $('#character-list .carousel-inner').children().length; i++) {
+                constructedCSS += constructorTemplatesShorted[$('#generationMethod').val()]['multiple'];
+                constructedCSS = constructedCSS
+                    .replace(/___DiscordUserID___/g, mainform.elements['discord-user-id'][i].value)
+                    .replace(/___DiscordAvatarLinkPassive___/g, mainform.elements['discord-avatar-link-passive'][i].value)
+                    .replace(/___DiscordAvatarLinkActive___/g, mainform.elements['discord-avatar-link-active'][i].value)
+                    .replace(/___AvatarBrightness___/g, mainform.elements['avatar-brightness'][i].value)
+                    .replace(/___AvatarJumpingHeight___/g, mainform.elements['avatar-jumping-height'][i].value)
+                    .replace(/___AvatarJumpingHeightUnits___/g, mainform.elements['avatar-jumping-height-units'][i].value);
+            }
+            $textareaProto.clone().val(constructedCSS).appendTo('#result-area');
+        }
+    } else {
+        constructedCSS = constructorTemplatesShorted[$('#generationMethod').val()]['code'] +  constructorTemplatesShorted[$('#generationMethod').val()]['single'];
+        constructedCSS = constructedCSS
+            .replace(/___DiscordUserID___/g, mainform.elements['discord-user-id'].value)
+            .replace(/___DiscordAvatarLinkPassive___/g, mainform.elements['discord-avatar-link-passive'].value)
+            .replace(/___DiscordAvatarLinkActive___/g, mainform.elements['discord-avatar-link-active'].value)
+            .replace(/___AvatarBrightness___/g, mainform.elements['avatar-brightness'].value)
+            .replace(/___AvatarJumpingHeight___/g, mainform.elements['avatar-jumping-height'].value)
+            .replace(/___AvatarJumpingHeightUnits___/g, mainform.elements['avatar-jumping-height-units'].value);
+        $textareaProto.clone().val(constructedCSS).appendTo('#result-area');
+    }
+    console.log(constructedCSS);
     return false;
 });
-// Дублировать последний слот
-$('#duplicate-last-slot').click(function(e) {
-    
+// Дублирование слота
+$('#duplicate-slot').on('click', function (evt) {
+    $('#character-list .carousel-inner .carousel-item:last-child')
+        .clone()
+        .removeClass('active')
+        .appendTo('#character-list .carousel-inner');
+    $('#character-list').carousel('next');
+    $('#next-char-btn').attr('disabled', true);
+});
+// Управление каруселью
+$('#character-list').on('slide.bs.carousel', function (evt) {
+    //console.log(evt);
+    if(evt.to == $('#character-list .carousel-inner').children().length-1) {
+        $('#prev-char-btn').removeAttr('disabled');
+        $('#next-char-btn').attr('disabled', 'disabled');
+    } else if (evt.to == 0 && evt.direction == 'right') {
+        $('#prev-char-btn').attr('disabled', 'disabled');
+        $('#next-char-btn').removeAttr('disabled');
+    } else {
+        $('#prev-char-btn').removeAttr('disabled');
+        $('#next-char-btn').removeAttr('disabled');
+    }
 });
