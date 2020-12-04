@@ -97,14 +97,14 @@
                 <div class="card-footer d-inline-flex">
                     <button class="btn btn-primary mr-2" type="submit">
                         <i class="fa fa-gears"></i>
-                        Generate!
+                        <span class="d-none d-md-inline">Generate!</span>
                     </button>
                     <button class="btn btn-danger" type="reset">
                         <i class="fa fa-repeat"></i>
-                        Reset
+                        <span class="d-none d-md-inline">Reset</span>
                     </button>
                     <div class="ml-auto form-inline">
-                        <label for="generation-method" class="mr-2">CSS generation method</label>
+                        <label for="generation-method" class="mr-2"><span class="d-none d-md-inline">CSS generation m</span><span class="d-md-none">M</span>ethod</label>
                         <select class="form-control" id="generationMethod" name="generation-method" required></select>
                     </div><!--/form-control-->
                 </div><!--/card-footer-->
@@ -117,18 +117,72 @@
         </header><!--/col-3-->
         <div class="col-xl-9 tab-content">
             <div class="form-group" id="result-area">
-                <textarea class="form-control" rows="10" style="font-family:monospace;" placeholder="CSS code appears on this field" id="css-code-result"></textarea>
+                <textarea class="form-control" rows="10" placeholder="CSS code appears on this field" id="css-code-result"></textarea>
             </div><!--/form-group-->
         </div><!--/col-xl-9-->
     </section><!--/row-->
-    <section class="row mb-5 d-none">
+    <section class="row mb-5" id="preview">
         <header class="col-xl-3">
-            <h2 class="h1 mb-3">Preview</h2>
+            <h2 class="h1 mb-3">Preview<br class="d-none d-xl-block"><small class="text-muted"> approx.</small></h2>
         </header><!--/col-3-->
-        <div class="col-xl-9 tab-content">
-            <div class="embed-responsive embed-responsive-21by9">
-                <iframe id="previewFrame" class="embed-responsive-item" srcdoc="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div><!--/embed-responsive-->
+        <div class="col-xl-9">
+            <div class="obs-window border border-primary">
+                <header class="window-title bg-primary text-white w-100 py-1 px-2">
+                    <i class="fa fa-globe"></i>
+                    Properties: 'You CLR Browser'
+                </header><!--/window-title-->
+                <div class="window-area">
+                    <div class="row m-0 p-2">
+                        <div class="embed-responsive embed-responsive-21by9">
+                            <div class="embed-responsive-item d-flex justify-content-around" id="previewFrame"></div><!--/previewFrame-->
+                        </div><!--/embed-responsive-->
+                    </div><!--/row-->
+                    <div class="row m-0 py-3">
+                        <div class="col-12">
+                            <div class="row mb-2">
+                                <div class="col-2 pr-0 d-flex">
+                                    <label for="previewURL" class="my-auto ml-auto">URL</label>
+                                </div><!--/col-2-->
+                                <div class="col-10">
+                                    <input type="text" id="previewURL" class="form-control form-control-sm" disabled placeholder="https://streamkit.discord.com/overlay/voice/...">
+                                </div><!--/col-10-->
+                            </div><!--/row-->
+                            <div class="row mb-2">
+                                <div class="col-2 pr-0 d-flex">
+                                    <label for="previewWidth" class="my-auto ml-auto">Width</label>
+                                </div><!--/col-2-->
+                                <div class="col-10">
+                                    <input type="text" id="previewWidth" class="form-control form-control-sm" disabled value="1280 (recommended)">
+                                </div><!--/col-10-->
+                            </div><!--/row-->
+                            <div class="row mb-2">
+                                <div class="col-2 pr-0 d-flex">
+                                    <label for="previewHeight" class="my-auto ml-auto">Height</label>
+                                </div><!--/col-2-->
+                                <div class="col-10">
+                                    <input type="text" id="previewHeight" class="form-control form-control-sm" disabled value="550 (recommended)">
+                                </div><!--/col-10-->
+                            </div><!--/row-->
+                            <div class="row">
+                                <div class="col-2 pr-0 d-flex text-right">
+                                    <label for="previewCSS" class="ml-auto">Custom CSS</label>
+                                </div><!--/col-2-->
+                                <div class="col-10">
+                                    <textarea id="previewCSS" class="form-control form-contol-sm" rows="5" disabled></textarea>
+                                </div><!--/col-10-->
+                            </div><!--/row-->
+                            <div class="row">
+                                <div class="col-10 offset-2">
+                                    <div class="form-group form-check">
+                                        <input type="checkbox" class="form-check-input" id="previewShutdownSourceFlag" checked disabled>
+                                        <label class="form-check-label" for="previewShutdownSourceFlag">Shutdown source when not visible (recommended)</label>
+                                    </div><!--/form-group-->
+                                </div><!--/col-10-->
+                            </div><!--/row-->
+                        </div><!--/col-12-->
+                    </div><!--/row-->
+                </div><!--/window-area-->
+            </div><!--/obs-window-->
         </div><!--/col-xl-9-->
     </section><!--/row-->
 </div><!--/container-->

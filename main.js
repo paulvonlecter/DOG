@@ -2,7 +2,7 @@
  * Variables
  */
 var constructorTemplatesShorted = {};
-let $textareaProto = $('#css-code-result').clone().removeAttr('id');
+let $textareaProto = $('#css-code-result').clone().removeAttr('id').addClass('css-code-result');
 
 /**
  * Events
@@ -31,6 +31,7 @@ $('#mainform').bind('submit', function (evt) {
     let constructedCSS = '';
     let multipleFlag = ($('#character-list .carousel-inner').children().length>1?true:false);
     $('#result-area').empty();
+    $('#previewFrame').empty();
     if(multipleFlag) {
         if (mainform.elements['generation-method'].value == 'jiinh') {
             alert("Original method doesn't support multiple characters!\nEnabling separated generation...");
@@ -46,6 +47,19 @@ $('#mainform').bind('submit', function (evt) {
                     .replace(/___AvatarJumpingHeightUnits___/g, mainform.elements['avatar-jumping-height-units'][i].value);
                 $textareaProto.clone().val(constructedCSS).appendTo('#result-area');
             }
+            // Превью пассивной картинки
+            $('<img>')
+                .attr('src', mainform.elements['discord-avatar-link-passive'][0].value)
+                .attr('title', 'User ' + mainform.elements['discord-user-id'][0].value + ' passive avatar')
+                .attr('style', `filter: brightness(${mainform.elements['avatar-brightness'][0].value}%)`)
+                .addClass('h-100')
+                .appendTo('#previewFrame');
+            // Превью активной картинки
+            $('<img>')
+                .attr('src', mainform.elements['discord-avatar-link-active'][0].value)
+                .attr('title', 'User ' + mainform.elements['discord-user-id'][0].value + ' active (speaking) avatar')
+                .addClass('h-100')
+                .appendTo('#previewFrame');
         } else {
             constructedCSS = constructorTemplatesShorted[$('#generationMethod').val()]['code'];
             let $characterCollection = $('#character-list .carousel-inner').children();
@@ -58,11 +72,24 @@ $('#mainform').bind('submit', function (evt) {
                     .replace(/___AvatarBrightness___/g, mainform.elements['avatar-brightness'][i].value)
                     .replace(/___AvatarJumpingHeight___/g, mainform.elements['avatar-jumping-height'][i].value)
                     .replace(/___AvatarJumpingHeightUnits___/g, mainform.elements['avatar-jumping-height-units'][i].value);
+                // Превью пассивной картинки
+                $('<div>')
+                    .attr('title', 'User ' + mainform.elements['discord-user-id'][i].value + ' passive avatar')
+                    .attr('style', `filter: brightness(${mainform.elements['avatar-brightness'][i].value}%); background-image: url(${mainform.elements['discord-avatar-link-passive'][i].value})`)
+                    .addClass('w-100 h-100 previewFrameItem')
+                    .appendTo('#previewFrame');
+                // Превью активной картинки
+                $('<div>')
+                    .attr('background', `url(${mainform.elements['discord-avatar-link-active'][i].value})`)
+                    .attr('title', 'User ' + mainform.elements['discord-user-id'][i].value + ' active (speaking) avatar')
+                    .attr('style', `background-image: url(${mainform.elements['discord-avatar-link-active'][i].value})`)
+                    .addClass('w-100 h-100 previewFrameItem')
+                    .appendTo('#previewFrame');
             }
             $textareaProto.clone().val(constructedCSS).appendTo('#result-area');
         }
     } else {
-        constructedCSS = constructorTemplatesShorted[$('#generationMethod').val()]['code'] +  constructorTemplatesShorted[$('#generationMethod').val()]['single'];
+        constructedCSS = constructorTemplatesShorted[$('#generationMethod').val()]['code'] +  (constructorTemplatesShorted[$('#generationMethod').val()]['single']!=undefined?constructorTemplatesShorted[$('#generationMethod').val()]['single']:'');
         constructedCSS = constructedCSS
             .replace(/___DiscordUserID___/g, mainform.elements['discord-user-id'].value)
             .replace(/___DiscordAvatarLinkPassive___/g, mainform.elements['discord-avatar-link-passive'].value)
@@ -71,7 +98,21 @@ $('#mainform').bind('submit', function (evt) {
             .replace(/___AvatarJumpingHeight___/g, mainform.elements['avatar-jumping-height'].value)
             .replace(/___AvatarJumpingHeightUnits___/g, mainform.elements['avatar-jumping-height-units'].value);
         $textareaProto.clone().val(constructedCSS).appendTo('#result-area');
+        // Превью пассивной картинки
+        $('<img>')
+            .attr('src', mainform.elements['discord-avatar-link-passive'].value)
+            .attr('title', 'User ' + mainform.elements['discord-user-id'].value + ' passive avatar')
+            .attr('style', `filter: brightness(${mainform.elements['avatar-brightness'].value}%)`)
+            .addClass('h-100')
+            .appendTo('#previewFrame');
+        // Превью активной картинки
+        $('<img>')
+            .attr('src', mainform.elements['discord-avatar-link-active'].value)
+            .attr('title', 'User ' + mainform.elements['discord-user-id'].value + ' active (speaking) avatar')
+            .addClass('h-100')
+            .appendTo('#previewFrame');
     }
+    $('#previewCSS').val(constructedCSS);
     console.log(constructedCSS);
     return false;
 });

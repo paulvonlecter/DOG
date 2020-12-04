@@ -1,0 +1,21 @@
+.obs-window {
+    background-color: #3A393A !important;
+    color: white !important;
+}
+.obs-window .form-control {
+    background-color: #1F1E1F !important;
+    color: white !important;
+    border: none;
+}
+#previewFrame {
+    background-color: #4C4C4C !important;
+}
+#previewFrame div.previewFrameItem {
+    display: block;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+#css-code-result, .css-code-result, #previewCSS {
+    font-family: monospace !important;
+}
