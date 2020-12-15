@@ -53,7 +53,7 @@ $('#mainform').bind('submit', function (evt) {
                 .attr('src', mainform.elements['discord-avatar-link-passive'][0].value)
                 .attr('title', 'User ' + mainform.elements['discord-user-id'][0].value + ' passive avatar')
                 .attr('style', `filter: brightness(${mainform.elements['avatar-brightness'][0].value}%)`)
-                .addClass('h-100')
+                .addClass('h-100 avatar')
                 .appendTo('#previewFrame');
             // Превью активной картинки
             $('<img>')
@@ -104,7 +104,7 @@ $('#mainform').bind('submit', function (evt) {
             .attr('src', mainform.elements['discord-avatar-link-passive'].value)
             .attr('title', 'User ' + mainform.elements['discord-user-id'].value + ' passive avatar')
             .attr('style', `filter: brightness(${mainform.elements['avatar-brightness'].value}%)`)
-            .addClass('h-100')
+            .addClass('h-100 avatar')
             .appendTo('#previewFrame');
         // Превью активной картинки
         $('<img>')

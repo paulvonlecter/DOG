@@ -19,3 +19,23 @@
 #css-code-result, .css-code-result, #previewCSS {
     font-family: monospace !important;
 }
+#previewFrame ul.voice-states {
+    display: flex !important;
+    width: 100% !important;
+    padding: 0 !important;
+    justify-content: flex-start;
+    vertical-align: bottom;
+    margin: 0 !important;
+    height: 100% !important;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+#previewFrame li.voice-state {
+    display: flex !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+}
