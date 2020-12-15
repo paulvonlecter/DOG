@@ -4,6 +4,7 @@
 var constructorTemplatesShorted = {};
 let $textareaProto = $('#css-code-result').clone().removeAttr('id').addClass('css-code-result');
 
+
 /**
  * Events
  */
@@ -24,7 +25,7 @@ $(document).ready(function () {
     }
     $('#prev-char-btn').attr('disabled', true);
     $('#next-char-btn').attr('disabled', true);
-    console.log(constructorTemplatesShorted);
+    //console.log(constructorTemplatesShorted);
 });
 // Генерация кода
 $('#mainform').bind('submit', function (evt) {
@@ -113,7 +114,7 @@ $('#mainform').bind('submit', function (evt) {
             .appendTo('#previewFrame');
     }
     $('#previewCSS').val(constructedCSS);
-    console.log(constructedCSS);
+    //console.log(constructedCSS);
     return false;
 });
 // Дублирование слота
@@ -124,6 +125,20 @@ $('#duplicate-slot').on('click', function (evt) {
         .appendTo('#character-list .carousel-inner');
     $('#character-list').carousel('next');
     $('#next-char-btn').attr('disabled', true);
+});
+// Сброс формы
+$('#mainform').on('reset', function (evt) {
+    if($('#character-list .carousel-inner .carousel-item').length > 1) {
+        do {
+            $('#character-list .carousel-inner .carousel-item:last-child').detach();
+        } while ($('#character-list .carousel-inner .carousel-item').length > 1);
+        $('#character-list .carousel-inner .carousel-item:last-child').addClass('active');
+    }
+    $('#prev-char-btn').attr('disabled', 'disabled');
+    $('#next-char-btn').attr('disabled', 'disabled');
+    $('#result-area textarea').val('');
+    $('#previewCSS').val('');
+    $('#previewFrame').empty();
 });
 // Управление каруселью
 $('#character-list').on('slide.bs.carousel', function (evt) {
