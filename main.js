@@ -3,8 +3,19 @@
  */
 var constructorTemplatesShorted = {};
 let $textareaProto = $('#css-code-result').clone().removeAttr('id').addClass('css-code-result');
-
-
+/**
+ * Functions
+ */
+// Доступность хранилища
+function storageAvailable(type) {
+	try {
+		var storage = window[type], x = '__storage_test__';
+		storage.setItem(x, x);
+		storage.removeItem(x);
+		return true;
+	}
+	catch(e) { console.log(e); return false; }
+}
 /**
  * Events
  */
@@ -26,7 +37,19 @@ $(document).ready(function () {
     $('#prev-char-btn').attr('disabled', true);
     $('#next-char-btn').attr('disabled', true);
     //console.log(constructorTemplatesShorted);
+    // Если не работает локальное хранилище, выключить кнопку сохранения
+    if (!storageAvailable('localStorage'))
+        $('#save-button')
+            .prop('disabled', true)
+            .attr('title', "Your browser doesn't support save operation on localStorage");
+    // Если все же работает...
+    else
+        // Попробовать получить сохраненные данные
+        if(localStorage.getItem('appConfig') !== null)
+            // Отобразить кнопку загрузки
+            $('#load-button').removeClass('d-none');
 });
+
 // Генерация кода
 $('#mainform').bind('submit', function (evt) {
     let constructedCSS = '';
@@ -117,17 +140,31 @@ $('#mainform').bind('submit', function (evt) {
     //console.log(constructedCSS);
     return false;
 });
+
 // Дублирование слота
-$('#duplicate-slot').on('click', function (evt) {
+function duplicateSlot(evt) {
     $('#character-list .carousel-inner .carousel-item:last-child')
         .clone()
         .removeClass('active')
         .appendTo('#character-list .carousel-inner');
     $('#character-list').carousel('next');
-    $('#next-char-btn').attr('disabled', true);
+    $('#next-char-btn').prop('disabled', true);
+    $('#remove-slot').prop('disabled', false);
+}
+$('#duplicate-slot').on('click', duplicateSlot);
+
+// Удаление слота
+$('#remove-slot').on('click', function (evt) {
+    // Получить текущий элемент
+    var tmp = $('#character-list .carousel-inner .carousel-item.active');
+    // Переключить карусель
+    $('#character-list').carousel('prev');
+    // Удалить сохраненный элемент
+    tmp.detach();
 });
+
 // Сброс формы
-$('#mainform').on('reset', function (evt) {
+function resetForm(evt) {
     if($('#character-list .carousel-inner .carousel-item').length > 1) {
         do {
             $('#character-list .carousel-inner .carousel-item:last-child').detach();
@@ -139,7 +176,9 @@ $('#mainform').on('reset', function (evt) {
     $('#result-area textarea').val('');
     $('#previewCSS').val('');
     $('#previewFrame').empty();
-});
+}
+$('#mainform').on('reset', resetForm);
+
 // Управление каруселью
 $('#character-list').on('slide.bs.carousel', function (evt) {
     //console.log(evt);
@@ -152,5 +191,72 @@ $('#character-list').on('slide.bs.carousel', function (evt) {
     } else {
         $('#prev-char-btn').removeAttr('disabled');
         $('#next-char-btn').removeAttr('disabled');
+    }
+});
+// Сохранение формы
+$('#save-button').on('click', function (evt) {
+    // Определить объект конфигурации
+    let mainConfig = {
+        "generation-method": mainform.elements['generation-method'].value,
+        "elements": []
+    };
+    // Аватар один, или в комплекте
+    let multipleFlag = ($('#character-list .carousel-inner').children().length>1?true:false);
+    // Если один, то все просто...
+    if(multipleFlag) {
+        // Получение массива потомков карусели
+        let $characterCollection = $('#character-list .carousel-inner').children();
+        // Для каждого потомка
+        for (var i = 0; i < $('#character-list .carousel-inner').children().length; i++) {
+            mainConfig['elements'][i] = {
+                "discord-user-id": mainform.elements['discord-user-id'][i].value,
+                "discord-avatar-link-passive": mainform.elements['discord-avatar-link-passive'][i].value,
+                "discord-avatar-link-active": mainform.elements['discord-avatar-link-active'][i].value,
+                "avatar-brightness": mainform.elements['avatar-brightness'][i].value,
+                "avatar-jumping-height": mainform.elements['avatar-jumping-height'][i].value,
+                "avatar-jumping-height-units": mainform.elements['avatar-jumping-height-units'][i].value
+            };
+        }
+    } else {
+        mainConfig['elements'][0] = {
+            "discord-user-id": mainform.elements['discord-user-id'].value,
+            "discord-avatar-link-passive": mainform.elements['discord-avatar-link-passive'].value,
+            "discord-avatar-link-active": mainform.elements['discord-avatar-link-active'].value,
+            "avatar-brightness": mainform.elements['avatar-brightness'].value,
+            "avatar-jumping-height": mainform.elements['avatar-jumping-height'].value,
+            "avatar-jumping-height-units": mainform.elements['avatar-jumping-height-units'].value
+        };
+    }
+    localStorage.setItem('appConfig', JSON.stringify(mainConfig));
+});
+// Загрузка конфигурации
+$('#load-button').on('click', function (evt) {
+    // Предварительный сброс формы
+    resetForm(evt);
+    // Получить конфигурацию
+    let mainConfig = JSON.parse(localStorage.getItem('appConfig'));
+    // Выбрать метод в списке
+    $('#generationMethod').val(mainConfig['generation-method']);
+    console.log(mainConfig);
+    // Применить конфигурацию
+    if(mainConfig.elements.length > 1) {
+        for (var i = 0; i < mainConfig.elements.length; i++) {
+            // Дублирование при последующих итерациях
+            if(i < mainConfig.elements.length - 1) { duplicateSlot(evt) }
+            // Задание параметров
+            mainform.elements['discord-user-id'][i].value = mainConfig.elements[i]['discord-user-id'];
+            mainform.elements['discord-avatar-link-passive'][i].value = mainConfig.elements[i]['discord-avatar-link-passive'];
+            mainform.elements['discord-avatar-link-active'][i].value = mainConfig.elements[i]['discord-avatar-link-active'];
+            mainform.elements['avatar-brightness'][i].value = mainConfig.elements[i]['avatar-brightness'];
+            mainform.elements['avatar-jumping-height'][i].value = mainConfig.elements[i]['avatar-jumping-height'];
+            mainform.elements['avatar-jumping-height-units'][i].value = mainConfig.elements[i]['avatar-jumping-height-units'];
+        }
+    } else {
+        mainform.elements['discord-user-id'].value = mainConfig.elements[0]['discord-user-id'];
+        mainform.elements['discord-avatar-link-passive'].value = mainConfig.elements[0]['discord-avatar-link-passive'];
+        mainform.elements['discord-avatar-link-active'].value = mainConfig.elements[0]['discord-avatar-link-active'];
+        mainform.elements['avatar-brightness'].value = mainConfig.elements[0]['avatar-brightness'];
+        mainform.elements['avatar-jumping-height'].value = mainConfig.elements[0]['avatar-jumping-height'];
+        mainform.elements['avatar-jumping-height-units'].value = mainConfig.elements[0]['avatar-jumping-height-units'];
     }
 });

@@ -36,12 +36,30 @@
         <form class="col-xl-9" id="mainform" onsubmit="false">
             <div class="card">
                 <div class="card-header d-flex" role="navigation">
-                    <button class="btn btn-outline-dark mr-3" data-target="#character-list" role="button" data-slide="prev" id="prev-char-btn">&larr;&nbsp;Previous</button>
-                    <button class="btn btn-outline-dark" data-target="#character-list" role="button" data-slide="next" id="next-char-btn">Next&nbsp;&rarr;</button>
-                    <button type="button" class="btn btn-primary ml-auto" id="duplicate-slot" aria-selected="false" title="Duplicate character slot">
-                        <i class="fa fa-copy"></i>
-                        <span class="d-none d-md-inline">Duplicate slot</span>
-                    </button>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-outline-dark" data-target="#character-list" role="button" data-slide="prev" id="prev-char-btn">&larr;&nbsp;Previous</button>
+                        <button class="btn btn-sm btn-outline-dark" data-target="#character-list" role="button" data-slide="next" id="next-char-btn">Next&nbsp;&rarr;</button>
+                    </div><!--/btn-group-->
+                    <div class="btn-group ml-auto mr-3">
+                        <button type="button" class="btn btn-sm btn-secondary d-none" id="load-button">
+                            <i class="fa fa-upload"></i>
+                            <span class="d-none d-md-inline">Load config</span>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-secondary" id="save-button">
+                            <i class="fa fa-save"></i>
+                            <span class="d-none d-md-inline">Save config</span>
+                        </button>
+                    </div><!--/btn-group-->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-primary" id="duplicate-slot" aria-selected="false" title="Duplicate character slot">
+                            <i class="fa fa-copy"></i>
+                            <span class="d-none d-md-inline">Duplicate slot</span>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-danger" id="remove-slot" aria-selected="false" title="Remove active slot (for future updates lol)" disabled>
+                            <i class="fa fa-trash"></i>
+                            <span class="d-none d-md-inline">Remove slot</span>
+                        </button>
+                    </div><!--/btn-group-->
                 </div><!--/navigation-->
                 <div id="character-list" class="carousel slide card-body" data-ride="carousel" data-interval="0">
                     <div class="carousel-inner">
