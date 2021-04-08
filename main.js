@@ -71,19 +71,8 @@ $('#mainform').bind('submit', function (evt) {
                     .replace(/___AvatarJumpingHeightUnits___/g, mainform.elements['avatar-jumping-height-units'][i].value);
                 $textareaProto.clone().val(constructedCSS).appendTo('#result-area');
             }
-            // Превью пассивной картинки
-            $('<img>')
-                .attr('src', mainform.elements['discord-avatar-link-passive'][0].value)
-                .attr('title', 'User ' + mainform.elements['discord-user-id'][0].value + ' passive avatar')
-                .attr('style', `filter: brightness(${mainform.elements['avatar-brightness'][0].value}%)`)
-                .addClass('h-100 avatar')
-                .appendTo('#previewFrame');
-            // Превью активной картинки
-            $('<img>')
-                .attr('src', mainform.elements['discord-avatar-link-active'][0].value)
-                .attr('title', 'User ' + mainform.elements['discord-user-id'][0].value + ' active (speaking) avatar')
-                .addClass('h-100')
-                .appendTo('#previewFrame');
+            // Генерация превью
+            generatePreview(mainform.elements, constructedCSS);
         } else {
             constructedCSS = constructorTemplatesShorted[$('#generationMethod').val()]['code'];
             let $characterCollection = $('#character-list .carousel-inner').children();
@@ -96,20 +85,9 @@ $('#mainform').bind('submit', function (evt) {
                     .replace(/___AvatarBrightness___/g, mainform.elements['avatar-brightness'][i].value)
                     .replace(/___AvatarJumpingHeight___/g, mainform.elements['avatar-jumping-height'][i].value)
                     .replace(/___AvatarJumpingHeightUnits___/g, mainform.elements['avatar-jumping-height-units'][i].value);
-                // Превью пассивной картинки
-                $('<div>')
-                    .attr('title', 'User ' + mainform.elements['discord-user-id'][i].value + ' passive avatar')
-                    .attr('style', `filter: brightness(${mainform.elements['avatar-brightness'][i].value}%); background-image: url(${mainform.elements['discord-avatar-link-passive'][i].value})`)
-                    .addClass('w-100 h-100 previewFrameItem')
-                    .appendTo('#previewFrame');
-                // Превью активной картинки
-                $('<div>')
-                    .attr('background', `url(${mainform.elements['discord-avatar-link-active'][i].value})`)
-                    .attr('title', 'User ' + mainform.elements['discord-user-id'][i].value + ' active (speaking) avatar')
-                    .attr('style', `background-image: url(${mainform.elements['discord-avatar-link-active'][i].value})`)
-                    .addClass('w-100 h-100 previewFrameItem')
-                    .appendTo('#previewFrame');
             }
+            // Генерация превью
+            generatePreview(mainform.elements, constructedCSS);
             $textareaProto.clone().val(constructedCSS).appendTo('#result-area');
         }
     } else {
@@ -121,25 +99,67 @@ $('#mainform').bind('submit', function (evt) {
             .replace(/___AvatarBrightness___/g, mainform.elements['avatar-brightness'].value)
             .replace(/___AvatarJumpingHeight___/g, mainform.elements['avatar-jumping-height'].value)
             .replace(/___AvatarJumpingHeightUnits___/g, mainform.elements['avatar-jumping-height-units'].value);
+        // Генерация превью
+        generatePreview(mainform.elements, constructedCSS);
         $textareaProto.clone().val(constructedCSS).appendTo('#result-area');
-        // Превью пассивной картинки
-        $('<img>')
-            .attr('src', mainform.elements['discord-avatar-link-passive'].value)
-            .attr('title', 'User ' + mainform.elements['discord-user-id'].value + ' passive avatar')
-            .attr('style', `filter: brightness(${mainform.elements['avatar-brightness'].value}%)`)
-            .addClass('h-100 avatar')
-            .appendTo('#previewFrame');
-        // Превью активной картинки
-        $('<img>')
-            .attr('src', mainform.elements['discord-avatar-link-active'].value)
-            .attr('title', 'User ' + mainform.elements['discord-user-id'].value + ' active (speaking) avatar')
-            .addClass('h-100')
-            .appendTo('#previewFrame');
     }
     $('#previewCSS').val(constructedCSS);
-    //console.log(constructedCSS);
     return false;
 });
+
+// Генерация превью
+function generatePreview(sourceData, css) {
+    let $framedocument = $('<body>');
+    // Собрать шаблон
+    $framedocument.html(`<style>${css}</style><div id="app-mount"><div style="font-family:Whitney,sans-serif;background-color:transparent;"><div class="voice-container"><ul class="voice-states"></ul></div></div></div><script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="helper.js"></script>`);
+    // Получить объект списка участников голосового канала
+    let $speakerList = $framedocument.children('#app-mount').children('div').children('.voice-container').children('.voice-states');
+    // Получить флаг множественности
+    let multipleFlag = ($('#character-list .carousel-inner').children().length>1?true:false);
+    // Массив участников
+    let speakers = [];
+    // Заполнить массив
+    if(multipleFlag) {
+        for (var i = 0; i < sourceData['discord-user-id'].length; i++) {
+            speakers[i] = {
+                "discord-user-id": sourceData['discord-user-id'][i].value,
+                "discord-avatar-link-passive": sourceData['discord-avatar-link-passive'][i].value,
+                "discord-avatar-link-active": sourceData['discord-avatar-link-active'][i].value,
+                "avatar-brightness": sourceData['avatar-brightness'][i].value,
+                "avatar-jumping-height": sourceData['avatar-jumping-height'][i].value,
+                "avatar-jumping-height-units": sourceData['avatar-jumping-height-units'][i].value
+            };
+        }
+    } else {
+        speakers[0] = {
+            "discord-user-id": sourceData['discord-user-id'].value,
+            "discord-avatar-link-passive": sourceData['discord-avatar-link-passive'].value,
+            "discord-avatar-link-active": sourceData['discord-avatar-link-active'].value,
+            "avatar-brightness": sourceData['avatar-brightness'].value,
+            "avatar-jumping-height": sourceData['avatar-jumping-height'].value,
+            "avatar-jumping-height-units": sourceData['avatar-jumping-height-units'].value
+        };
+    }
+    // Заполнить список говорящих
+    for (var i = 0; i < speakers.length; i++) {
+        // Текущий элемент
+        let currentSpeaker = speakers[i];
+        // Элемент изображения
+        let $currentSpeakerImage = $('<img>')
+            .attr('src', currentSpeaker['discord-avatar-link-passive'])
+            .attr('data-reactid', currentSpeaker['discord-user-id'])
+            .addClass('avatar');
+        // Элемент списка
+        $('<li>')
+            .attr('data-reactid', currentSpeaker['discord-user-id'])
+            .addClass('voice-state')
+            .append($currentSpeakerImage)
+            .appendTo($speakerList);
+    }
+    // Записать во фрейм предварительного просмотра
+    $('#previewIFrame').attr('srcdoc', $framedocument.html());
+}
 
 // Дублирование слота
 function duplicateSlot(evt) {
