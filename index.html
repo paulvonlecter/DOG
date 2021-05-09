@@ -43,12 +43,26 @@
                     <div class="btn-group ml-auto mr-3">
                         <button type="button" class="btn btn-sm btn-secondary d-none" id="load-button">
                             <i class="fa fa-upload"></i>
-                            <span class="d-none d-md-inline">Load config</span>
+                            <span class="d-none d-md-inline">Load</span><span class="d-none d-lg-inline"> config</span>
                         </button>
                         <button type="button" class="btn btn-sm btn-secondary" id="save-button">
                             <i class="fa fa-save"></i>
-                            <span class="d-none d-md-inline">Save config</span>
+                            <span class="d-none d-md-inline">Save</span><span class="d-none d-lg-inline"> config</span>
                         </button>
+                        <button type="button" class="btn btn-sm btn-secondary" data-toggle="dropdown">
+                            <i class="fa fa-ellipsis-h"></i>
+                            <span class="sr-only">More actions</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item border-0" id="import-button">
+                                <i class="fa fa-fw fa-folder-open"></i>
+                                Import config
+                            </button>
+                            <button class="dropdown-item border-0" id="export-button" href="#">
+                                <i class="fa fa-fw fa-download"></i>
+                                Export config
+                            </button>
+                        </div><!--/dropdown-menu-->
                     </div><!--/btn-group-->
                     <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-primary" id="duplicate-slot" aria-selected="false" title="Duplicate character slot">

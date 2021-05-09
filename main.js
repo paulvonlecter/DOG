@@ -191,8 +191,6 @@ function duplicateSlot(evt) {
     $('#character-list').carousel('next');
     $('#next-char-btn').prop('disabled', true);
     $('#remove-slot').prop('disabled', false);
-    $('#character-list .carousel-inner .carousel-item')
-        .removeClass('carousel-item-next carousel-item-left');
 }
 $('#duplicate-slot').on('click', duplicateSlot);
 
@@ -305,6 +303,12 @@ $('#load-button').on('click', function (evt) {
         mainform.elements['avatar-jumping-height'].value = mainConfig.elements[0]['avatar-jumping-height'];
         mainform.elements['avatar-jumping-height-units'].value = mainConfig.elements[0]['avatar-jumping-height-units'];
     }
+    setTimeout(function () {
+        $('#character-list .carousel-inner .carousel-item')
+            .removeClass('carousel-item-next carousel-item-left active');
+        $('#character-list .carousel-inner .carousel-item:last-child')
+            .addClass('active');
+    }, 1000);
 });
 // Скачивание текстовиков
 $('#download-each').on('click', function (evt) {
@@ -314,7 +318,6 @@ $('#download-each').on('click', function (evt) {
         constructedCSS = constructorTemplatesShorted[$('#generationMethod').val()]['code'];
         let $characterCollection = $('#character-list .carousel-inner').children();
         for (var i = 0; i < $('#character-list .carousel-inner').children().length; i++) {
-            //constructedCSS += constructorTemplatesShorted[$('#generationMethod').val()]['multiple'];
             constructedCSS = constructorTemplatesShorted[$('#generationMethod').val()]['code'] +  (constructorTemplatesShorted[$('#generationMethod').val()]['single']!=undefined?constructorTemplatesShorted[$('#generationMethod').val()]['single']:'');
             constructedCSS = constructedCSS
                 .replace(/___DiscordUserID___/g, mainform.elements['discord-user-id'][i].value)
@@ -344,4 +347,42 @@ $('#download-all').on('click', function (evt) {
     let constructedCSS = $('#result-area>textarea').val();
     // Инициировать скачивание файла
     download('exportedCSS.txt', constructedCSS);
+});
+// Экспорт конфигурации
+$('#export-button').on('click', function (evt) {
+    if(localStorage.getItem('appConfig') !== null)
+        download('DOGSettings.json', localStorage.getItem('appConfig'));
+    else
+        alert('Save config first!');
+});
+// Импорт конфигурации
+$('#import-button').on('click', function (evt) {
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.onchange = e => {
+        // getting a hold of the file reference
+        var file = e.target.files[0];
+        // setting up the reader
+        var reader = new FileReader();
+        reader.readAsText(file, 'UTF-8');
+        // here we tell the reader what to do when it's done reading...
+        reader.onload = readerEvent => {
+            var content = readerEvent.target.result; // this is the content!
+            try {
+                let testObject = JSON.parse(content)
+                // Файл должен содержать нужные параметры
+                if(testObject['generationMethod']!='')
+                    localStorage.setItem('appConfig', content);
+                else
+                    throw 'Incorrect JSON';
+                // Отобразить кнопку загрузки и кликнуть по ней
+                $('#load-button')
+                    .removeClass('d-none')
+                    .click();
+            } catch (e) {
+                alert(e);
+            }
+        }
+    }
+    input.click();
 });
