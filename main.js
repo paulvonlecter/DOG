@@ -16,6 +16,19 @@ function storageAvailable(type) {
 	}
 	catch(e) { console.log(e); return false; }
 }
+// Скачивание файла
+function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
 /**
  * Events
  */
@@ -56,6 +69,10 @@ $('#mainform').bind('submit', function (evt) {
     let multipleFlag = ($('#character-list .carousel-inner').children().length>1?true:false);
     $('#result-area').empty();
     $('#previewFrame').empty();
+    $('#download-button').prop('disabled', false);
+    // Сброс состояния кнопок загрузки
+    $('#download-all').removeClass('disabled');
+    $('#download-each').removeClass('disabled');
     if(multipleFlag) {
         if (mainform.elements['generation-method'].value == 'jiinh') {
             alert("Original method doesn't support multiple characters!\nEnabling separated generation...");
@@ -73,6 +90,8 @@ $('#mainform').bind('submit', function (evt) {
             }
             // Генерация превью
             generatePreview(mainform.elements, constructedCSS);
+            // Оставить включенной только загрузку всех возможных вариантов
+            $('#download-all').addClass('disabled');
         } else {
             constructedCSS = constructorTemplatesShorted[$('#generationMethod').val()]['code'];
             let $characterCollection = $('#character-list .carousel-inner').children();
@@ -102,6 +121,8 @@ $('#mainform').bind('submit', function (evt) {
         // Генерация превью
         generatePreview(mainform.elements, constructedCSS);
         $textareaProto.clone().val(constructedCSS).appendTo('#result-area');
+        // Выключить кнопку множественной скачки
+        $('#download-each').addClass('disabled');
     }
     $('#previewCSS').val(constructedCSS);
     return false;
@@ -170,6 +191,8 @@ function duplicateSlot(evt) {
     $('#character-list').carousel('next');
     $('#next-char-btn').prop('disabled', true);
     $('#remove-slot').prop('disabled', false);
+    $('#character-list .carousel-inner .carousel-item')
+        .removeClass('carousel-item-next carousel-item-left');
 }
 $('#duplicate-slot').on('click', duplicateSlot);
 
@@ -196,6 +219,9 @@ function resetForm(evt) {
     $('#result-area textarea').val('');
     $('#previewCSS').val('');
     $('#previewFrame').empty();
+    // Сброс состояния кнопок загрузки
+    $('#download-all').removeClass('disabled');
+    $('#download-each').removeClass('disabled');
 }
 $('#mainform').on('reset', resetForm);
 
@@ -279,4 +305,43 @@ $('#load-button').on('click', function (evt) {
         mainform.elements['avatar-jumping-height'].value = mainConfig.elements[0]['avatar-jumping-height'];
         mainform.elements['avatar-jumping-height-units'].value = mainConfig.elements[0]['avatar-jumping-height-units'];
     }
+});
+// Скачивание текстовиков
+$('#download-each').on('click', function (evt) {
+    let constructedCSS = '';
+    let multipleFlag = ($('#character-list .carousel-inner').children().length>1?true:false);
+    if(multipleFlag) {
+        constructedCSS = constructorTemplatesShorted[$('#generationMethod').val()]['code'];
+        let $characterCollection = $('#character-list .carousel-inner').children();
+        for (var i = 0; i < $('#character-list .carousel-inner').children().length; i++) {
+            //constructedCSS += constructorTemplatesShorted[$('#generationMethod').val()]['multiple'];
+            constructedCSS = constructorTemplatesShorted[$('#generationMethod').val()]['code'] +  (constructorTemplatesShorted[$('#generationMethod').val()]['single']!=undefined?constructorTemplatesShorted[$('#generationMethod').val()]['single']:'');
+            constructedCSS = constructedCSS
+                .replace(/___DiscordUserID___/g, mainform.elements['discord-user-id'][i].value)
+                .replace(/___DiscordAvatarLinkPassive___/g, mainform.elements['discord-avatar-link-passive'][i].value)
+                .replace(/___DiscordAvatarLinkActive___/g, mainform.elements['discord-avatar-link-active'][i].value)
+                .replace(/___AvatarBrightness___/g, mainform.elements['avatar-brightness'][i].value)
+                .replace(/___AvatarJumpingHeight___/g, mainform.elements['avatar-jumping-height'][i].value)
+                .replace(/___AvatarJumpingHeightUnits___/g, mainform.elements['avatar-jumping-height-units'][i].value);
+            let filename = mainform.elements['discord-user-id'][i].value + '.txt';
+            download(filename, constructedCSS);
+        }
+    } else {
+        constructedCSS = constructorTemplatesShorted[$('#generationMethod').val()]['code'] +  (constructorTemplatesShorted[$('#generationMethod').val()]['single']!=undefined?constructorTemplatesShorted[$('#generationMethod').val()]['single']:'');
+        constructedCSS = constructedCSS
+            .replace(/___DiscordUserID___/g, mainform.elements['discord-user-id'].value)
+            .replace(/___DiscordAvatarLinkPassive___/g, mainform.elements['discord-avatar-link-passive'].value)
+            .replace(/___DiscordAvatarLinkActive___/g, mainform.elements['discord-avatar-link-active'].value)
+            .replace(/___AvatarBrightness___/g, mainform.elements['avatar-brightness'].value)
+            .replace(/___AvatarJumpingHeight___/g, mainform.elements['avatar-jumping-height'].value)
+            .replace(/___AvatarJumpingHeightUnits___/g, mainform.elements['avatar-jumping-height-units'].value);
+        let filename = mainform.elements['discord-user-id'].value + '.txt';
+        download(filename, constructedCSS);
+    }
+});
+$('#download-all').on('click', function (evt) {
+    // Получить готовый код
+    let constructedCSS = $('#result-area>textarea').val();
+    // Инициировать скачивание файла
+    download('exportedCSS.txt', constructedCSS);
 });

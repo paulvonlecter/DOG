@@ -114,17 +114,33 @@
                     </div><!--/col-xl-9-->
                 </div><!--/carousel-->
                 <div class="card-footer d-inline-flex">
-                    <button class="btn btn-primary mr-2" type="submit">
+                    <button class="btn btn-sm btn-primary mr-2" type="submit">
                         <i class="fa fa-gears"></i>
                         <span class="d-none d-md-inline">Generate!</span>
                     </button>
-                    <button class="btn btn-danger" type="reset">
+                    <button class="btn btn-sm btn-danger mr-2" type="reset">
                         <i class="fa fa-repeat"></i>
                         <span class="d-none d-md-inline">Reset</span>
                     </button>
+                    <div class="btn-group">
+                        <button class="btn btn-sm btn-success dropdown-toggle" id="download-button" type="button" data-toggle="dropdown" disabled>
+                            <i class="fa fa-download"></i>
+                            <span class="d-none d-md-inline">Download</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item border-0" id="download-each">
+                                <i class="fa fa-fw fa-files-o"></i>
+                                Each Item
+                            </button>
+                            <button class="dropdown-item border-0" id="download-all" href="#">
+                                <i class="fa fa-fw fa-file-o"></i>
+                                All Items
+                            </button>
+                        </div><!--/dropdown-menu-->
+                    </div><!--/btn-group-->
                     <div class="ml-auto form-inline">
-                        <label for="generation-method" class="mr-2"><span class="d-none d-md-inline">CSS generation m</span><span class="d-md-none">M</span>ethod</label>
-                        <select class="form-control" id="generationMethod" name="generation-method" required></select>
+                        <label for="generation-method" class="mr-2">Generator</label>
+                        <select class="form-control form-control-sm" id="generationMethod" name="generation-method" required></select>
                     </div><!--/form-control-->
                 </div><!--/card-footer-->
             </div><!--/card-->
@@ -154,23 +170,6 @@
                     <div class="row m-0 p-2">
                         <div class="embed-responsive embed-responsive-21by9">
                             <iframe border="0" id="previewIFrame" class="embed-responsive-item"></iframe>
-                            <!--
-                            <div id="app-mount">
-                                <div style="font-family:Whitney, sans-serif;background-color:transparent;" class=" " data-reactid=".0">
-                                    <div class="voice-container" data-reactid=".0.0">
-                                        <ul class="voice-states" data-reactid=".0.0.0">
-                                            <li class="voice-state" data-reactid=".0.0.0.$289085323571363850/=1$289085323571363850">
-                                                <img class="avatar" src="https://cdn.discordapp.com/avatars/289085323571363850/af7f176fac6e0ffa2e8911a381371088.jpg" data-reactid=".0.0.0.$289085323571363850/=1$289085323571363850.$=10">
-                                                <div class="user" data-reactid=".0.0.0.$289085323571363850/=1$289085323571363850.$/=11">
-                                                    <span class=" name" style="color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.95);" data-reactid=".0.0.0.$289085323571363850/=1$289085323571363850.$/=11.0">Paul von Lecter</span>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            -->
-                            <!--<div class="embed-responsive-item d-flex justify-content-around" id="previewFrame"></div><!--/previewFrame-->
                         </div><!--/embed-responsive-->
                     </div><!--/row-->
                     <div class="row m-0 py-3">
