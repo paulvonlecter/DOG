@@ -258,7 +258,8 @@ $('#save-button').on('click', function (evt) {
                 "discord-avatar-link-active": mainform.elements['discord-avatar-link-active'][i].value,
                 "avatar-brightness": mainform.elements['avatar-brightness'][i].value,
                 "avatar-jumping-height": mainform.elements['avatar-jumping-height'][i].value,
-                "avatar-jumping-height-units": mainform.elements['avatar-jumping-height-units'][i].value
+                "avatar-jumping-height-units": mainform.elements['avatar-jumping-height-units'][i].value,
+                "discord-user-alias": mainform.elements['discord-user-alias'][i].value || ""
             };
         }
     } else {
@@ -268,7 +269,8 @@ $('#save-button').on('click', function (evt) {
             "discord-avatar-link-active": mainform.elements['discord-avatar-link-active'].value,
             "avatar-brightness": mainform.elements['avatar-brightness'].value,
             "avatar-jumping-height": mainform.elements['avatar-jumping-height'].value,
-            "avatar-jumping-height-units": mainform.elements['avatar-jumping-height-units'].value
+            "avatar-jumping-height-units": mainform.elements['avatar-jumping-height-units'].value,
+            "discord-user-alias": mainform.elements['discord-user-alias'].value || ""
         };
     }
     localStorage.setItem('appConfig', JSON.stringify(mainConfig));
@@ -289,6 +291,7 @@ $('#load-button').on('click', function (evt) {
             if(i < mainConfig.elements.length - 1) { duplicateSlot(evt) }
             // Задание параметров
             mainform.elements['discord-user-id'][i].value = mainConfig.elements[i]['discord-user-id'];
+            mainform.elements['discord-user-alias'][i].value = mainConfig.elements[i]['discord-user-alias'] || "";
             mainform.elements['discord-avatar-link-passive'][i].value = mainConfig.elements[i]['discord-avatar-link-passive'];
             mainform.elements['discord-avatar-link-active'][i].value = mainConfig.elements[i]['discord-avatar-link-active'];
             mainform.elements['avatar-brightness'][i].value = mainConfig.elements[i]['avatar-brightness'];
@@ -297,6 +300,7 @@ $('#load-button').on('click', function (evt) {
         }
     } else {
         mainform.elements['discord-user-id'].value = mainConfig.elements[0]['discord-user-id'];
+        mainform.elements['discord-user-alias'].value = mainConfig.elements[0]['discord-user-alias'] || "";
         mainform.elements['discord-avatar-link-passive'].value = mainConfig.elements[0]['discord-avatar-link-passive'];
         mainform.elements['discord-avatar-link-active'].value = mainConfig.elements[0]['discord-avatar-link-active'];
         mainform.elements['avatar-brightness'].value = mainConfig.elements[0]['avatar-brightness'];
@@ -326,7 +330,7 @@ $('#download-each').on('click', function (evt) {
                 .replace(/___AvatarBrightness___/g, mainform.elements['avatar-brightness'][i].value)
                 .replace(/___AvatarJumpingHeight___/g, mainform.elements['avatar-jumping-height'][i].value)
                 .replace(/___AvatarJumpingHeightUnits___/g, mainform.elements['avatar-jumping-height-units'][i].value);
-            let filename = mainform.elements['discord-user-id'][i].value + '.txt';
+            let filename = mainform.elements['discord-user-alias'][i].value || mainform.elements['discord-user-id'][i].value + '.txt';
             download(filename, constructedCSS);
         }
     } else {
@@ -338,7 +342,7 @@ $('#download-each').on('click', function (evt) {
             .replace(/___AvatarBrightness___/g, mainform.elements['avatar-brightness'].value)
             .replace(/___AvatarJumpingHeight___/g, mainform.elements['avatar-jumping-height'].value)
             .replace(/___AvatarJumpingHeightUnits___/g, mainform.elements['avatar-jumping-height-units'].value);
-        let filename = mainform.elements['discord-user-id'].value + '.txt';
+        let filename = mainform.elements['discord-user-alias'].value || mainform.elements['discord-user-id'].value + '.txt';
         download(filename, constructedCSS);
     }
 });
