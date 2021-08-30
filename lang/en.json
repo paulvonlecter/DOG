@@ -1,0 +1,62 @@
+{
+    "metadata": {
+        "title": "Lecter's Discord Overlay Generator",
+        "description": "This utility generates cascading style sheet (CSS) code that significantly expands the&nbsp;possibilities of&nbsp;representing a&nbsp;list of&nbsp;voice channel users. CSS-code can be used to embed Xsplit Broadcaster and OBS programs into the browser source.",
+        "footer": "<em>Made with <span class='sr-only'>love</span><i class='fa fa-heart'></i> by <a target='_blank' href='http://paulvonlecter.name/'>Paul von Lecter</a> in 2020 for streamers</em>"
+    },
+    "control": {
+        "prev": "&larr;&nbsp;Previous",
+        "next": "Next&nbsp;&rarr;",
+        "load": "Load",
+        "save": "Save",
+        "import": "Import",
+        "export": "Export",
+        "configSuffix": " config",
+        "moreActions": "More actions",
+        "duplicateSlot": "Duplicate slot",
+        "removeSlot": "Remove slot",
+        "generate": "Generate!",
+        "reset": "Reset",
+        "download": "Download"
+    },
+    "form": {
+        "nickname": "This Is Awesome Nickname",
+        "uid": "Discord User ID",
+        "brightness": "Brightness (passive)",
+        "jumpHeight": "Jumping height",
+        "imagePassive": "URL for passive avatar",
+        "imageActive": "URL for active avatar",
+        "downloadEach": "Each Item",
+        "downloadAll": "All Items"
+    },
+    "placeholder": {
+        "nickname": "This Is Awesome Nickname",
+        "brightness": "Type a number, e.g. 70",
+        "jumpHeight": "Type a number, e.g. 10",
+        "imagePassive": "Paste link here like this: https://cdn.discordapp.com/attachments/123.../456.../passive.png",
+        "imageActive": "Paste link here like this: https://cdn.discordapp.com/attachments/123.../456.../active.png",
+        "result": "CSS code appears on this field",
+        "previewWidth": "1280 (recommended)",
+        "previewHeight": "550 (recommended)"
+    },
+    "app": {
+        "step0": "Step 0.",
+        "step0desc": "Prepare the&nbsp;link",
+        "step1": "Step 1.",
+        "step1desc": "Fill this form",
+        "step2": "Step 2.",
+        "step2desc": "Copy & Paste",
+        "preview": "Preview",
+        "previewSuffix": " approx.",
+        "previewWindowTitle": "Properties: 'Your CLR Browser'",
+        "previewWidth": "Width",
+        "previewHeight": "Height",
+        "previewCSS": "Custom CSS",
+        "previewFlag": "Shutdown source when not visible (recommended)"
+    },
+    "instruction": [
+        "Visit <a target='_blank' href='https://streamkit.discord.com/overlay'>https://streamkit.discord.com/overlay</a> and click on the <span class='btn btn-outline-primary btn-sm' title='These buttons are located on the page below the images in the center of the screen'>Install on &hellip;</span> button depending on your program. Streamers usually use OBS as their main program.",
+        "In the next window select <strong>Voice Widget</strong> and set the required parameters (<em>Server</em> and <em>Voice channel</em>).",
+        "Below the preview window is the actual link for pasting into the browser source window. <span class='text-danger'>Copy and Save it!</span>"
+    ]
+}

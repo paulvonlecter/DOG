@@ -390,3 +390,38 @@ $('#import-button').on('click', function (evt) {
     }
     input.click();
 });
+// Переключение языков
+$('#language-selector>*').on('click', function (evt) {
+    // Отмечаем элемент активным
+    $(evt.target).addClass('active').siblings().removeClass('active');
+    // Загрузить профиль языка
+    var lang = $(evt.target).attr('data-lang');
+    $.getJSON(`lang/${lang}.json`, (data) => {
+        // Обновление метаданных страницы
+        $.each(data.metadata, (key, val) => {
+            $(`[data-langkey="metadata_${key}"]`).html(val);
+        });
+        document.title = data.metadata.title;
+        // Обновление элементов управления
+        $.each(data.control, (key, val) => {
+            $(`[data-langkey="control_${key}"]`).html(val);
+        });
+        // Обновление элементов формы
+        $.each(data.form, (key, val) => {
+            $(`[data-langkey="form_${key}"]`).html(val);
+        });
+        // Обновление подсказок формы
+        $.each(data.placeholder, (key, val) => {
+            $(`[data-langkey="placeholder_${key}"]`).attr('placeholder', val);
+        });
+        // Обновление элементов приложения
+        $.each(data.app, (key, val) => {
+            $(`[data-langkey="app_${key}"]`).html(val);
+        });
+        // Обновление инструкции
+        $(`[data-langkey="instruction"]`).html('');
+        $.each(data.instruction, (key, val) => {
+            $('<li>').html(val).appendTo(`[data-langkey="instruction"]`);
+        });
+    });
+});

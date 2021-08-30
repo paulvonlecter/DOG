@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,19 +10,34 @@
 <title>Lecter's Discord Overlay Generator</title>
 </head>
 <body>
+
 <header class="jumbotron">
     <div class="container">
-        <h1>Lecter's DOG<br><small class="text-muted">Discord Overlay Generator</small></h1>
-        <p>This utility generates cascading style sheet (CSS) code that significantly expands the&nbsp;possibilities of&nbsp;representing a&nbsp;list of&nbsp;voice channel users. CSS-code can be used to embed Xsplit Broadcaster and OBS programs into the browser source.</p>
+        <div class="row">
+            <div class="col-sm-10">
+                <h1>Lecter's DOG<br><small class="text-muted">Discord Overlay Generator</small></h1>
+                <p data-langkey="metadata_description">This utility generates cascading style sheet (CSS) code that significantly expands the&nbsp;possibilities of&nbsp;representing a&nbsp;list of&nbsp;voice channel users. CSS-code can be used to embed Xsplit Broadcaster and OBS programs into the browser source.</p>
+            </div><!--/col-->
+            <div class="col-sm-2">
+                <div class="btn-group-vertical w-100 btn-group-toggle" id="language-selector" role="group">
+                    <button type="button" class="btn btn-light" data-lang="ru" title="Русский">&#127479;&#127482;</button>
+                    <button type="button" class="btn btn-light" data-lang="en" title="English">&#127482;&#127480;</button>
+                </nav>
+            </div><!--/col-->
+        </div><!--/row-->
     </div><!--/container-->
 </header>
 <div class="container" role="application">
     <section class="row mb-5">
         <header class="col-xl-3">
-            <h2 class="h1 mb-3"><small class="text-muted">Step 0. </small><br class="d-none d-xl-block">Prepare the&nbsp;link</h2>
+            <h2 class="h1 mb-3">
+                <small class="text-muted" data-langkey="app_step0">Step 0.</small>
+                <br class="d-none d-xl-block">
+                <span data-langkey="app_step0desc">Prepare the&nbsp;link</span>
+            </h2>
         </header><!--/col-3-->
         <div class="col-xl-9">
-            <ol>
+            <ol data-langkey="instruction">
                 <li>Visit <a target="_blank" href="https://streamkit.discord.com/overlay">https://streamkit.discord.com/overlay</a> and click on the <span class="btn btn-outline-primary btn-sm" title="These buttons are located on the page below the images in the center of the screen">Install on &hellip;</span> button depending on your program. Streamers usually use OBS as their main program.</li>
                 <li>In the next window select <strong>Voice Widget</strong> and set the required parameters (<em>Server</em> and <em>Voice channel</em>).</li>
                 <li>Below the preview window is the actual link for pasting into the browser source window. <span class="text-danger">Copy and Save it!</span></li>
@@ -31,47 +46,51 @@
     </section><!--/row-->
     <section class="row mb-5">
         <header class="col-xl-3">
-            <h2 class="h1 mb-3"><small class="text-muted">Step 1. </small><br class="d-none d-xl-block">Fill this form</h2>
+            <h2 class="h1 mb-3">
+                <small class="text-muted" data-langkey="app_step1">Step 1.</small>
+                <br class="d-none d-xl-block">
+                <span data-langkey="app_step1desc">Fill this form</span>
+            </h2>
         </header><!--/col-3-->
         <form class="col-xl-9" id="mainform" onsubmit="false">
             <div class="card">
                 <div class="card-header d-flex" role="navigation">
                     <div class="btn-group">
-                        <button class="btn btn-sm btn-outline-dark" data-target="#character-list" role="button" data-slide="prev" id="prev-char-btn">&larr;&nbsp;Previous</button>
-                        <button class="btn btn-sm btn-outline-dark" data-target="#character-list" role="button" data-slide="next" id="next-char-btn">Next&nbsp;&rarr;</button>
+                        <button class="btn btn-sm btn-outline-dark" data-target="#character-list" role="button" data-slide="prev" id="prev-char-btn" data-langkey="control_prev">&larr;&nbsp;Previous</button>
+                        <button class="btn btn-sm btn-outline-dark" data-target="#character-list" role="button" data-slide="next" id="next-char-btn" data-langkey="control_next">Next&nbsp;&rarr;</button>
                     </div><!--/btn-group-->
                     <div class="btn-group ml-auto mr-3">
                         <button type="button" class="btn btn-sm btn-secondary d-none" id="load-button">
                             <i class="fa fa-upload"></i>
-                            <span class="d-none d-md-inline">Load</span><span class="d-none d-lg-inline"> config</span>
+                            <span class="d-none d-md-inline" data-langkey="control_load">Load</span><span class="d-none d-lg-inline"> config</span>
                         </button>
                         <button type="button" class="btn btn-sm btn-secondary" id="save-button">
                             <i class="fa fa-save"></i>
-                            <span class="d-none d-md-inline">Save</span><span class="d-none d-lg-inline"> config</span>
+                            <span class="d-none d-md-inline" data-langkey="control_save">Save</span><span class="d-none d-lg-inline" data-langkey="configSuffix"> config</span>
                         </button>
                         <button type="button" class="btn btn-sm btn-secondary" data-toggle="dropdown">
                             <i class="fa fa-ellipsis-h"></i>
-                            <span class="sr-only">More actions</span>
+                            <span class="sr-only" data-langkey="control_moreActions">More actions</span>
                         </button>
                         <div class="dropdown-menu">
                             <button class="dropdown-item border-0" id="import-button">
                                 <i class="fa fa-fw fa-folder-open"></i>
-                                Import config
+                                <span data-langkey="control_import">Import</span><span data-langkey="configSuffix"> config</span>
                             </button>
                             <button class="dropdown-item border-0" id="export-button" href="#">
                                 <i class="fa fa-fw fa-download"></i>
-                                Export config
+                                <span data-langkey="control_export">Export</span><span data-langkey="configSuffix"> config</span>
                             </button>
                         </div><!--/dropdown-menu-->
                     </div><!--/btn-group-->
                     <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-primary" id="duplicate-slot" aria-selected="false" title="Duplicate character slot">
                             <i class="fa fa-copy"></i>
-                            <span class="d-none d-md-inline">Duplicate slot</span>
+                            <span class="d-none d-md-inline" data-langkey="control_duplicateSlot">Duplicate slot</span>
                         </button>
-                        <button type="button" class="btn btn-sm btn-danger" id="remove-slot" aria-selected="false" title="Remove active slot (for future updates lol)" disabled>
+                        <button type="button" class="btn btn-sm btn-danger" id="remove-slot" aria-selected="false" title="Remove active slot" disabled>
                             <i class="fa fa-trash"></i>
-                            <span class="d-none d-md-inline">Remove slot</span>
+                            <span class="d-none d-md-inline" data-langkey="control_removeSlot">Remove slot</span>
                         </button>
                     </div><!--/btn-group-->
                 </div><!--/navigation-->
@@ -81,21 +100,21 @@
                             <div class="form-row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label for="discord-user-alias">Nickname (alias)</label>
-                                        <input type="text" class="form-control" name="discord-user-alias" placeholder="This Is Awesome Nickname">
+                                        <label for="discord-user-alias" data-langkey="form_nickname">Nickname (alias)</label>
+                                        <input type="text" class="form-control" name="discord-user-alias" data-langkey="placeholder_nickname" placeholder="This Is Awesome Nickname">
                                     </div><!--/form-group-->
                                 </div><!--/col-12-->
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="discord-user-id">Discord User ID</label>
+                                        <label for="discord-user-id" data-langkey="form_uid">Discord User ID</label>
                                         <input type="number" class="form-control" name="discord-user-id" required placeholder="12345678901234567890" />
                                     </div><!--/form-control-->
                                 </div><!--/col-6-->
                                 <div class="col-md-3 col-sm-6">
                                     <div class="form-group">
-                                        <label for="avatar-brightness">Brightness (passive)</label>
+                                        <label for="avatar-brightness" data-langkey="form_brightness">Brightness (passive)</label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" name="avatar-brightness" required placeholder="Type a number, e.g. 70" value="70" min="0" max="100" />
+                                            <input type="number" class="form-control" name="avatar-brightness" data-langkey="placeholder_brightness" required placeholder="Type a number, e.g. 70" value="70" min="0" max="100" />
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="basic-addon2">%</span>
                                             </div>
@@ -104,9 +123,9 @@
                                 </div><!--/col-3-->
                                 <div class="col-md-3 col-sm-6">
                                     <div class="form-group">
-                                        <label for="avatar-jumping-height">Jumping height</label>
+                                        <label for="avatar-jumping-height" data-langkey="form_jumpHeight">Jumping height</label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" name="avatar-jumping-height" required placeholder="Type a number, e.g. 10" value="10" min="0" />
+                                            <input type="number" class="form-control" name="avatar-jumping-height" data-langkey="placeholder_jumpHeight" required placeholder="Type a number, e.g. 10" value="10" min="0" />
                                             <div class="input-group-append">
                                                 <select class="form-control rounded-0" name="avatar-jumping-height-units">
                                                     <option value="px" selected>px</option>
@@ -123,12 +142,12 @@
                                 </div><!--/col-3-->
                             </div><!--/form-row-->
                             <div class="form-group">
-                                <label for="discord-avatar-link-passive">URL for passive avatar</label>
-                                <input type="url" class="form-control" name="discord-avatar-link-passive" required placeholder="Paste link here like this: https://cdn.discordapp.com/attachments/123.../456.../passive.png" />
+                                <label for="discord-avatar-link-passive" data-langkey="form_imagePassive">URL for passive avatar</label>
+                                <input type="url" class="form-control" name="discord-avatar-link-passive" data-langkey="placeholder_imagePassive" required placeholder="Paste link here like this: https://cdn.discordapp.com/attachments/123.../456.../passive.png" />
                             </div><!--/form-control-->
                             <div class="form-group">
-                                <label for="discord-avatar-link-active">URL for active avatar</label>
-                                <input type="url" class="form-control" name="discord-avatar-link-active" required placeholder="Paste link here like this: https://cdn.discordapp.com/attachments/123.../456.../active.png" />
+                                <label for="discord-avatar-link-active" data-langkey="form_imageActive">URL for active avatar</label>
+                                <input type="url" class="form-control" name="discord-avatar-link-active" data-langkey="placeholder_imageActive" required placeholder="Paste link here like this: https://cdn.discordapp.com/attachments/123.../456.../active.png" />
                             </div><!--/form-control-->
                         </div><!--/single-avatar-->
                     </div><!--/col-xl-9-->
@@ -136,25 +155,25 @@
                 <div class="card-footer d-inline-flex">
                     <button class="btn btn-sm btn-primary mr-2" type="submit">
                         <i class="fa fa-gears"></i>
-                        <span class="d-none d-md-inline">Generate!</span>
+                        <span class="d-none d-md-inline" data-langkey="control_generate">Generate!</span>
                     </button>
                     <button class="btn btn-sm btn-danger mr-2" type="reset">
                         <i class="fa fa-repeat"></i>
-                        <span class="d-none d-md-inline">Reset</span>
+                        <span class="d-none d-md-inline" data-langkey="control_reset">Reset</span>
                     </button>
                     <div class="btn-group">
                         <button class="btn btn-sm btn-success dropdown-toggle" id="download-button" type="button" data-toggle="dropdown" disabled>
                             <i class="fa fa-download"></i>
-                            <span class="d-none d-md-inline">Download</span>
+                            <span class="d-none d-md-inline" data-langkey="control_download">Download</span>
                         </button>
                         <div class="dropdown-menu">
                             <button class="dropdown-item border-0" id="download-each">
                                 <i class="fa fa-fw fa-files-o"></i>
-                                Each Item
+                                <span data-langkey="form_downloadEach">Each Item</span>
                             </button>
                             <button class="dropdown-item border-0" id="download-all" href="#">
                                 <i class="fa fa-fw fa-file-o"></i>
-                                All Items
+                                <span data-langkey="form_downloadAll">All Items</span>
                             </button>
                         </div><!--/dropdown-menu-->
                     </div><!--/btn-group-->
@@ -168,23 +187,31 @@
     </section><!--/row-->
     <section class="row mb-5">
         <header class="col-xl-3">
-            <h2 class="h1 mb-3"><small class="text-muted">Step 2. </small><br class="d-none d-xl-block">Copy & Paste</h2>
+            <h2 class="h1 mb-3">
+                <small class="text-muted" data-langkey="app_step2">Step 2.</small>
+                <br class="d-none d-xl-block">
+                <span data-langkey="app_step2desc">Copy & Paste</span>
+            </h2>
         </header><!--/col-3-->
         <div class="col-xl-9 tab-content">
             <div class="form-group" id="result-area">
-                <textarea class="form-control" rows="10" placeholder="CSS code appears on this field" id="css-code-result"></textarea>
+                <textarea class="form-control" rows="10" data-langkey="placeholder_result" placeholder="CSS code appears on this field" id="css-code-result"></textarea>
             </div><!--/form-group-->
         </div><!--/col-xl-9-->
     </section><!--/row-->
     <section class="row mb-5" id="preview">
         <header class="col-xl-3">
-            <h2 class="h1 mb-3">Preview<br class="d-none d-xl-block"><small class="text-muted"> approx.</small></h2>
+            <h2 class="h1 mb-3">
+                <span data-langkey="app_preview">Preview</span>
+                <br class="d-none d-xl-block">
+                <small class="text-muted" data-langkey="app_previewSuffix"> approx.</small>
+            </h2>
         </header><!--/col-3-->
         <div class="col-xl-9">
             <div class="obs-window border border-primary">
                 <header class="window-title bg-primary text-white w-100 py-1 px-2">
                     <i class="fa fa-globe"></i>
-                    Properties: 'Your CLR Browser'
+                    <span data-langkey="app_previewWindowTitle">Properties: 'Your CLR Browser'</span>
                 </header><!--/window-title-->
                 <div class="window-area">
                     <div class="row m-0 p-2">
@@ -204,23 +231,23 @@
                             </div><!--/row-->
                             <div class="row mb-2">
                                 <div class="col-2 pr-0 d-flex">
-                                    <label for="previewWidth" class="my-auto ml-auto">Width</label>
+                                    <label for="previewWidth" class="my-auto ml-auto" data-langkey="app_previewWidth">Width</label>
                                 </div><!--/col-2-->
                                 <div class="col-10">
-                                    <input type="text" id="previewWidth" class="form-control form-control-sm" disabled value="1280 (recommended)">
+                                    <input type="text" id="previewWidth" class="form-control form-control-sm" data-langkey="placeholder_previewWidth" disabled value="1280 (recommended)">
                                 </div><!--/col-10-->
                             </div><!--/row-->
                             <div class="row mb-2">
                                 <div class="col-2 pr-0 d-flex">
-                                    <label for="previewHeight" class="my-auto ml-auto">Height</label>
+                                    <label for="previewHeight" class="my-auto ml-auto" data-langkey="app_previewHeight">Height</label>
                                 </div><!--/col-2-->
                                 <div class="col-10">
-                                    <input type="text" id="previewHeight" class="form-control form-control-sm" disabled value="550 (recommended)">
+                                    <input type="text" id="previewHeight" class="form-control form-control-sm" disabled data-langkey="placeholder_previewHeight" value="550 (recommended)">
                                 </div><!--/col-10-->
                             </div><!--/row-->
                             <div class="row">
                                 <div class="col-2 pr-0 d-flex text-right">
-                                    <label for="previewCSS" class="ml-auto">Custom CSS</label>
+                                    <label for="previewCSS" class="ml-auto" data-langkey="app_previewCSS">Custom CSS</label>
                                 </div><!--/col-2-->
                                 <div class="col-10">
                                     <textarea id="previewCSS" class="form-control form-contol-sm" rows="5" disabled></textarea>
@@ -230,7 +257,7 @@
                                 <div class="col-10 offset-2">
                                     <div class="form-group form-check">
                                         <input type="checkbox" class="form-check-input" id="previewShutdownSourceFlag" checked disabled>
-                                        <label class="form-check-label" for="previewShutdownSourceFlag">Shutdown source when not visible (recommended)</label>
+                                        <label class="form-check-label" for="previewShutdownSourceFlag" data-langkey="app_previewFlag">Shutdown source when not visible (recommended)</label>
                                     </div><!--/form-group-->
                                 </div><!--/col-10-->
                             </div><!--/row-->
@@ -263,9 +290,9 @@
     </div><!--/container-->
 </aside><!--/jumbotron-->
 <footer class="page-footer">
-    <p class="text-center"><em>Made with <span class="sr-only">love</span><i class="fa fa-heart"></i> by <a target="_blank" href="http://paulvonlecter.name/">Paul von Lecter</a> in 2020 for streamers</em></p>
+    <p class="text-center" data-langkey="metadata_footer"><em>Made with <span class="sr-only">love</span><i class="fa fa-heart"></i> by <a target="_blank" href="http://paulvonlecter.name/">Paul von Lecter</a> in 2020 for streamers</em></p>
 </footer><!--/page-footer-->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
 <script src="templates.js"></script>

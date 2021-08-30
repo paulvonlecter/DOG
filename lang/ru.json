@@ -1,0 +1,62 @@
+{
+    "metadata": {
+        "title": "Генератор оверлея для Discord",
+        "description": "Этот инструмент генерирует код каскадной таблицы стилей (CSS), что существенно расширяет возможности демонстрации участников голосовых каналов. CSS-код может быть использован для встраивания браузерного источника в такие программы как Xsplit Broadcaster и OBS.",
+        "footer": "<em>Сделано с <span class='sr-only'>любовью</span><i class='fa fa-heart'></i> <a target='_blank' href='http://paulvonlecter.name/'>Paul von Lecter</a> в 2020 году для стримеров</em>"
+    },
+    "control": {
+        "prev": "&larr;&nbsp;Предыдущий",
+        "next": "Следующий&nbsp;&rarr;",
+        "load": "Загрузить",
+        "save": "Сохранить",
+        "import": "Импортировать",
+        "export": "Экспортировать",
+        "configSuffix": " конфигурацию",
+        "moreActions": "Больше действий",
+        "duplicateSlot": "Дублировать слот",
+        "removeSlot": "Удалить слот",
+        "generate": "Генерировать!",
+        "reset": "Сбросить",
+        "download": "Скачать"
+    },
+    "form": {
+        "nickname": "Ник (псевдоним)",
+        "uid": "ID пользователя Discord",
+        "brightness": "Яркость (пассивная)",
+        "jumpHeight": "Высота подскока",
+        "imagePassive": "URL пассивного состояния",
+        "imageActive": "URL активного состояния",
+        "downloadEach": "Каждый слот в отдельности",
+        "downloadAll": "Все вместе"
+    },
+    "placeholder": {
+        "nickname": "Да Это Просто Невероятный Никнейм",
+        "brightness": "Введите число, например 70",
+        "jumpHeight": "Введите число, например 10",
+        "imagePassive": "Вставьте ссылку наподобие этой: https://cdn.discordapp.com/attachments/123.../456.../passive.png",
+        "imageActive": "Вставьте ссылку наподобие этой: https://cdn.discordapp.com/attachments/123.../456.../active.png",
+        "result": "CSS-код появится в этом поле",
+        "previewWidth": "1280 (рекомендуется)",
+        "previewHeight": "550 (рекомендуется)"
+    },
+    "app": {
+        "step0": "Шаг 0.",
+        "step0desc": "Подготовка ссылки",
+        "step1": "Шаг 1.",
+        "step1desc": "Заполнение формы",
+        "step2": "Шаг 2.",
+        "step2desc": "Скопируй-вставь",
+        "preview": "Предварительный просмотр",
+        "previewSuffix": " (примерный)",
+        "previewWindowTitle": "Свойства: 'Браузер'",
+        "previewWidth": "Ширина",
+        "previewHeight": "Высота",
+        "previewCSS": "CSS",
+        "previewFlag": "Отключить, когда невидим (recommended)"
+    },
+    "instruction": [
+        "Посетите <a target='_blank' href='https://streamkit.discord.com/overlay'>https://streamkit.discord.com/overlay</a> и нажмите на кнопку <span class='btn btn-outline-primary btn-sm' title='Эти кнопки располагаются в нижней части страницы по центру'>Install on &hellip;</span> в зависимости от используемой вами программы. Стримеры обычно пользуются OBS в качестве основной программы.",
+        "В следующем окне выберите <strong>Voice Widget</strong> и установите требуемые параметры в зависимости от сервера и голосового канала, где вы находитесь в данный момент (<em>Server</em> и <em>Voice channel</em>).",
+        "Ниже в том окне предварительного просмотра будет находиться актуальная ссылка для вставки в окно настройки браузерного источника. <span class='text-danger'>Скопируйте и сохраните ее!</span>"
+    ]
+}
