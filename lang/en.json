@@ -20,7 +20,7 @@
         "download": "Download"
     },
     "form": {
-        "nickname": "This Is Awesome Nickname",
+        "nickname": "Nickname (alias)",
         "uid": "Discord User ID",
         "brightness": "Brightness (passive)",
         "jumpHeight": "Jumping height",
