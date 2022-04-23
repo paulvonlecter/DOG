@@ -425,3 +425,180 @@ $('#language-selector>*').on('click', function (evt) {
         });
     });
 });
+// Добавление свойства
+$('.addRuleButton').on('click', function (evt) {
+    let rowElement = $('<div class="input-group text-monospace input-group-sm my-2"><div class="input-group-prepend"><select class="form-control form-control-sm"><option selected disabled>- select property -</select></div><span class="input-group-text rounded-0 px-1 py-0">:</span><input type="text" class="form-control form-control-sm border-left-0"><div class="input-group-append"><button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button></div></div>');
+    let style = document.body.style;
+    let shorthands = {};
+    let properties = Object.getOwnPropertyNames(style.hasOwnProperty("background")? style : style.__proto__);
+
+    properties = properties.filter(p => style[p] === "") // drop functions etc
+      .map(prop => { // de-camelCase
+        prop = prop.replace(/[A-Z]/g, function($0) { return '-' + $0.toLowerCase() });
+
+        if (prop.indexOf("webkit-") > -1) {
+          prop = "-" + prop;
+        }
+
+        return prop;
+      });
+/*
+    for (let p of properties) {
+      style.setProperty(p, "unset");
+
+      let props = [...style];
+
+      if (props.length > 1) {
+        // It's a shorthand!
+        shorthands[p] = props;
+      }
+
+      style.setProperty(p, "");
+    }
+    output.textContent = JSON.stringify(shorthands, null, "\t");
+*/
+    //console.log(properties);
+    let propertiesSelector = rowElement.children('.input-group-prepend').children('select');
+    // Перегонка свойств браузера в список
+    for (var prop in properties) {
+        if (properties.hasOwnProperty(prop)) {
+            $('<option>').val(properties[prop]).text(properties[prop]).appendTo(propertiesSelector);
+        }
+    }
+    // Прицепить событие удаления строки
+    let deleteButton = rowElement.children('.input-group-append').children('button');
+    deleteButton.on('click', function (e) {
+        $(this).parent().parent().detach();
+    })
+    // Поместить строку со свойствами под кнопку
+    $(this).parent().append(rowElement);
+});
+// Генерация кода для CSS madness
+$('#cssmadness').bind('submit', function (evt) {
+    let codeArray = [];
+    codeArray.push(`body {
+    background-color: transparent
+}
+
+.voice-container {
+    font-family: Whitney;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    color: #fff
+}
+
+.voice-container .voice-states {
+    list-style-type: none;
+    padding-left: 15px
+}
+
+.voice-container .voice-states .voice-state {
+    height: 50px;
+    margin-bottom: 8px
+}
+
+.voice-container .voice-states .voice-state .avatar {
+    height: 50px;
+    width: 50px;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    float: left;
+    margin-right: 8px
+}
+
+.voice-container .voice-states .voice-state .avatar.speaking {
+    border-color: #43b581
+}
+
+.voice-container .voice-states .voice-state .user {
+    padding-top: 18px
+}
+
+.voice-container .voice-states .voice-state .user .name {
+    background-color: #1e2124;
+    border-radius: 3px;
+    padding: 4px 6px
+}
+
+.voice-container .voice-states .voice-state.small-avatar {
+    height: 40px
+}
+
+.voice-container .voice-states .voice-state.small-avatar .avatar {
+    height: 40px;
+    width: 40px
+}
+
+.voice-container .voice-states .voice-state.small-avatar .user {
+    padding-top: 12px
+}`);
+    $('.madness-rules').each(function (ruleIdx, ruleElem) {
+        // Если в блоке не заданы правила...
+        if($(ruleElem).children('.input-group').length == 0) {
+            // .. ничего не делать
+            return;
+        }
+        // Собрать свойства
+        let propArray = [];
+        $(ruleElem).children('.input-group').each(function (rowIdx, rowElem) {
+            let inputVal = $(rowElem).children('input').val();
+            if(inputVal == "") return;
+            let propVal = $(rowElem).children('.input-group-prepend').children('select').val();
+            propArray.push(propVal + ": " + inputVal + ";\n");
+            console.log(propVal + ':', inputVal);
+        });
+        // Сборка строки
+        let str = $(ruleElem).attr('data-selector') + " {\n" + propArray.join(' ') + "}\n";
+        codeArray.push(str);
+    });
+    // Дополнительные стили
+    codeArray.push($('#madness-custom-rules').val());
+    let css = codeArray.join('');
+    // Сплюнуть пользователю
+    $('#css-code-result').val(css);
+    // Генерация превью
+    let $framedocument = $('<body>');
+    // Собрать шаблон
+    $framedocument.html(`<style>${css}</style><div id="app-mount"><div style="font-family:Whitney,sans-serif;background-color:transparent;"><div class="voice-container"><ul class="voice-states"></ul></div></div></div><script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="helper.js"></script>`);
+    // Получить объект списка участников голосового канала
+    let $speakerList = $framedocument.children('#app-mount').children('div').children('.voice-container').children('.voice-states');
+    let images = [
+        'https://cdn.discordapp.com/attachments/751787078085246976/967473434445631488/Ball.png',
+        'https://cdn.discordapp.com/attachments/751787078085246976/967473434785382410/Bells.png',
+        'https://cdn.discordapp.com/attachments/751787078085246976/967473435255115806/gift.png',
+        'https://cdn.discordapp.com/attachments/751787078085246976/967473435842338826/santa.png',
+        'https://cdn.discordapp.com/attachments/751787078085246976/967473436089794640/snow-4.png',
+    ];
+    let nicknames = [
+        'Vasiliy',
+        'Jack',
+        'Sotaro',
+        'Nihjat',
+        'Alex',
+    ];
+    // Заполнить список говорящих
+    for (var i = 0; i < 5; i++) {
+        // Элемент изображения
+        let $currentSpeakerImage = $('<img>')
+            .attr('src', images[i])
+            .addClass('avatar');
+        // Никнейм
+        let $currentSpeakerNicknameWrapper = $('<div>')
+            .addClass('user');
+        let $currentSpeakerNickname = $('<span>')
+            .attr('style', 'color:#ffffff;font-size:14px;background-color:rgba(30, 33, 36, 0.95);')
+            .text(nicknames[i])
+            .appendTo($currentSpeakerNicknameWrapper);
+        // Элемент списка
+        $('<li>')
+            .addClass('voice-state')
+            .append($currentSpeakerImage)
+            .append($currentSpeakerNicknameWrapper)
+            .appendTo($speakerList);
+    }
+    // Записать во фрейм предварительного просмотра
+    $('#previewIFrame').attr('srcdoc', $framedocument.html());
+    return false;
+});
