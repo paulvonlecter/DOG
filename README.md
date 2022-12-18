@@ -1,3 +1,11 @@
+# WARNING! This tool is outdated!
+Since December, 18, 2022 Discord StreamKit has changed their HTML code.
+I don't know how to get userID from it.
+Thanks to everyone who used this software.
+See you soon!
+
+*Working alternative is [Reactive by Fugi](https://reactive.fugi.tech/)*
+
 # Lecter`s DOG
 Discord overlay generator for OBS, Xsplit and etc. broadcast programs.
 
